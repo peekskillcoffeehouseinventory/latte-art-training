@@ -622,7 +622,7 @@ function renderManager() {
       <span style="font-size:13px;font-weight:500;color:#2c1a0e;">${s.name}</span>
       <div style="display:flex;align-items:center;gap:6px;">
         <select onchange="changeRole('${s.id}',this.value)" style="font-size:11px;padding:3px 6px;width:auto;">
-          ${['TL','SR','JR','AP'].map(r=>`<option value="${r}"${s.role===r?' selected':''}>${ROLE_NAME[r]}</option>`).join('')}
+          ${['MG','TL','SR','JR','AP'].map(r=>`<option value="${r}"${s.role===r?' selected':''}>${ROLE_NAME[r]}</option>`).join('')}
         </select>
         <button class="rm-btn" onclick="removeStaff('${s.id}')"><i class="ti ti-trash"></i></button>
       </div>
@@ -630,8 +630,9 @@ function renderManager() {
 }
 
 
-function toggleAccordion(id, btn) {
-  const panel = document.getElementById(id);
+function toggleAccordion(panelId, btnId) {
+  const panel = document.getElementById(panelId);
+  const btn = document.getElementById(btnId);
   const isOpen = panel.classList.contains('open');
   panel.classList.toggle('open', !isOpen);
   btn.classList.toggle('open', !isOpen);
