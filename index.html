@@ -214,7 +214,7 @@ select:focus,input:focus{border-color:#8b2020;box-shadow:0 0 0 2px rgba(139,32,3
 .comp-row{display:flex;align-items:center;justify-content:space-between;padding:8px 0;border-bottom:1px dotted #e0c9a8;font-size:13px;}
 .comp-row:last-child{border-bottom:none;}
 .rbadge{font-size:10px;padding:2px 7px;border-radius:4px;letter-spacing:0.5px;}
-.rb-tl{background:#fdf0f0;color:#7a1c1c;}
+.rb-mg{background:#7a1c1c;color:#f5e6c8;} .rb-mg{background:#7a1c1c;color:#f5e6c8;} .rb-tl{background:#fdf0f0;color:#7a1c1c;}
 .rb-sr{background:#f5ede0;color:#5a3010;}
 .rb-jr{background:#fff8ec;color:#854f0b;}
 .rb-ap{background:#f5f5f5;color:#555;}
@@ -241,6 +241,13 @@ select:focus,input:focus{border-color:#8b2020;box-shadow:0 0 0 2px rgba(139,32,3
     rgba(255,255,255,0.08) 12px,rgba(255,255,255,0.08) 13px
   );
 }
+
+.accordion-btn{width:100%;padding:10px 14px;background:#fff8f0;border:1px solid #e0c9a8;border-radius:8px;cursor:pointer;font-size:13px;font-weight:500;color:#7a1c1c;text-align:left;display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;}
+.accordion-btn:hover{background:#f5ede0;}
+.accordion-btn .arrow{transition:transform 0.2s;font-size:11px;color:#8a6a45;}
+.accordion-btn.open .arrow{transform:rotate(180deg);}
+.accordion-content{display:none;padding:8px 0 4px 0;}
+.accordion-content.open{display:block;}
 </style>
 </head>
 <body>
@@ -320,6 +327,8 @@ select:focus,input:focus{border-color:#8b2020;box-shadow:0 0 0 2px rgba(139,32,3
         <div style="margin-bottom:10px;"><label class="field-label">Name</label><input type="text" id="new-staff-name" placeholder="First name"></div>
         <div style="margin-bottom:10px;"><label class="field-label">Role</label>
           <select id="new-staff-role">
+            <option value="MG">Manager</option>
+            <option value="MG">Manager</option>
             <option value="TL">Team Lead</option>
             <option value="SR">Senior</option>
             <option value="JR">Junior</option>
@@ -338,9 +347,9 @@ select:focus,input:focus{border-color:#8b2020;box-shadow:0 0 0 2px rgba(139,32,3
 const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbz-jo8a8v3aod9scgEEyVA6UW7ocmq201EEfHVZD6k6tuMebWjUMMLcrm-18E-3QRYq/exec';
 const CAP = 5;
 const JUNIOR = ['JR','AP'];
-const ROLE_ORDER = {TL:0,SR:1,JR:2,AP:3};
-const ROLE_NAME = {TL:'Team Lead',SR:'Senior',JR:'Junior',AP:'Apprentice'};
-const ROLE_CLASS = {TL:'rb-tl',SR:'rb-sr',JR:'rb-jr',AP:'rb-ap'};
+const ROLE_ORDER = {MG:0,TL:1,SR:2,JR:3,AP:4};
+const ROLE_NAME = {MG:"Manager",TL:"Team Lead",SR:"Senior",JR:"Junior",AP:"Apprentice"};
+const ROLE_CLASS = {MG:"rb-mg",TL:"rb-tl",SR:"rb-sr",JR:"rb-jr",AP:"rb-ap"};
 
 let staff = [], dates = [], signups = [];
 let selectedDate = null, selectedStaff = null;
@@ -618,6 +627,14 @@ function renderManager() {
         <button class="rm-btn" onclick="removeStaff('${s.id}')"><i class="ti ti-trash"></i></button>
       </div>
     </div>`).join('');
+}
+
+
+function toggleAccordion(id, btn) {
+  const panel = document.getElementById(id);
+  const isOpen = panel.classList.contains('open');
+  panel.classList.toggle('open', !isOpen);
+  btn.classList.toggle('open', !isOpen);
 }
 
 loadData();
