@@ -318,26 +318,33 @@ select:focus,input:focus{border-color:#8b2020;box-shadow:0 0 0 2px rgba(139,32,3
       <div id="signups-by-date"></div>
     </div>
     <div class="mgr-section">
-      <div class="mgr-title">Attendance tracker</div>
-      <div id="compliance-table"></div>
+      <button class="accordion-btn" id="btn-attendance" onclick="toggleAccordion('attendance-panel','btn-attendance')">
+        <span>Attendance tracker</span><span class="arrow">▼</span>
+      </button>
+      <div class="accordion-content" id="attendance-panel">
+        <div id="compliance-table"></div>
+      </div>
     </div>
     <div class="mgr-section">
-      <div class="mgr-title">Manage staff</div>
-      <div class="add-form">
-        <div style="margin-bottom:10px;"><label class="field-label">Name</label><input type="text" id="new-staff-name" placeholder="First name"></div>
-        <div style="margin-bottom:10px;"><label class="field-label">Role</label>
-          <select id="new-staff-role">
-            <option value="MG">Manager</option>
-            <option value="MG">Manager</option>
-            <option value="TL">Team Lead</option>
-            <option value="SR">Senior</option>
-            <option value="JR">Junior</option>
-            <option value="AP">Apprentice</option>
-          </select>
+      <button class="accordion-btn" id="btn-staff" onclick="toggleAccordion('staff-panel','btn-staff')">
+        <span>Manage staff</span><span class="arrow">▼</span>
+      </button>
+      <div class="accordion-content" id="staff-panel">
+        <div class="add-form" style="margin-top:8px;">
+          <div style="margin-bottom:10px;"><label class="field-label">Name</label><input type="text" id="new-staff-name" placeholder="First name"></div>
+          <div style="margin-bottom:10px;"><label class="field-label">Role</label>
+            <select id="new-staff-role">
+              <option value="MG">Manager</option>
+              <option value="TL">Team Lead</option>
+              <option value="SR">Senior</option>
+              <option value="JR">Junior</option>
+              <option value="AP">Apprentice</option>
+            </select>
+          </div>
+          <button class="btn-outline" onclick="addStaff()"><i class="ti ti-plus"></i> Add staff member</button>
         </div>
-        <button class="btn-outline" onclick="addStaff()"><i class="ti ti-plus"></i> Add staff member</button>
+        <div id="staff-list"></div>
       </div>
-      <div id="staff-list"></div>
     </div>
   </div>
 </div>
@@ -416,7 +423,7 @@ function mySignupForDate(name, dateId) { return signups.find(s => s.name === nam
 
 function populateSelect() {
   const sel = document.getElementById('staff-select');
-  const sorted = [...staff].sort((a,b) => ROLE_ORDER[a.role] - ROLE_ORDER[b.role]);
+  const sorted = [...staff].sort((a,b) => ROLE_ORDER[a.role] - ROLE_ORDER[b.role] || a.name.localeCompare(b.name));
   sel.innerHTML = '<option value="">— select your name —</option>' +
     sorted.map(s => `<option value="${s.id}">${s.name} (${ROLE_NAME[s.role]})</option>`).join('');
 }
@@ -606,7 +613,7 @@ function renderManager() {
   }).join('') : '<p style="font-size:13px;color:#8a6a45;">No sessions added yet.</p>';
 
   const ct = document.getElementById('compliance-table');
-  const sorted = [...staff].sort((a,b) => ROLE_ORDER[a.role] - ROLE_ORDER[b.role]);
+  const sorted = [...staff].sort((a,b) => ROLE_ORDER[a.role] - ROLE_ORDER[b.role] || a.name.localeCompare(b.name));
   ct.innerHTML = sorted.map(s => {
     const count = signups.filter(x => x.name === s.name).length;
     return `<div class="comp-row">
