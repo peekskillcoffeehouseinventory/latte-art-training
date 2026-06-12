@@ -6,11 +6,11 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <title>PCH Latte Art Training</title>
-<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.44.0/tabler-icons.min.css">
 <style>
 *{box-sizing:border-box;margin:0;padding:0;}
-body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#f5ede0;min-height:100vh;}
+body{font-family:'DM Sans',sans-serif;background:#f5ede0;min-height:100vh;}
 .app{max-width:480px;margin:0 auto;background:#fdf6ee;min-height:100vh;box-shadow:0 0 40px rgba(0,0,0,0.12);}
 
 /* HERO */
@@ -50,7 +50,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
   text-align:center;cursor:pointer;
   color:#f5e6c8;
   border:none;background:none;
-  font-family:'Cinzel',serif;font-weight:400;
+  font-weight:400;
   transition:background 0.15s;
 }
 .tab.active{
@@ -107,7 +107,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .body{padding:1.25rem;}
 .field-label{
   font-size:10px;letter-spacing:2px;
-  color:#8b2020;font-family:'Cinzel',serif;
+  color:#8b2020;
   margin-bottom:6px;display:block;font-weight:600;
 }
 select,input[type=text],input[type=date]{
@@ -142,7 +142,7 @@ select:focus,input:focus{border-color:#8b2020;box-shadow:0 0 0 2px rgba(139,32,3
   border:2px solid #5a8a3a;
   background:#f6faf2;
 }
-.dc-date{font-family:'Cinzel',serif;font-size:13px;font-weight:600;color:#2c1a0e;}
+.dc-date{font-size:13px;font-weight:600;color:#2c1a0e;}
 .dc-time{font-size:11px;color:#8a6a45;margin-top:2px;}
 .dc-pips{display:flex;gap:3px;margin-top:8px;}
 .pip{width:9px;height:9px;border-radius:50%;background:#e0c9a8;}
@@ -156,7 +156,7 @@ select:focus,input:focus{border-color:#8b2020;box-shadow:0 0 0 2px rgba(139,32,3
 /* BUTTONS */
 .btn-primary{
   width:100%;padding:12px;
-  font-family:'Cinzel',serif;font-size:12px;letter-spacing:2px;
+  font-size:12px;letter-spacing:2px;
   background:#8b2020;color:#f5e6c8;
   border:none;border-radius:8px;cursor:pointer;margin-top:1rem;
   box-shadow:inset 0 1px 0 rgba(255,255,255,0.15),inset 0 -1px 0 rgba(0,0,0,0.2);
@@ -195,7 +195,7 @@ select:focus,input:focus{border-color:#8b2020;box-shadow:0 0 0 2px rgba(139,32,3
 /* MANAGER */
 .mgr-section{margin-bottom:1.5rem;}
 .mgr-title{
-  font-family:'Cinzel',serif;font-size:11px;letter-spacing:2px;
+  font-size:11px;letter-spacing:2px;
   color:#8b2020;margin-bottom:0.75rem;padding-bottom:6px;
   border-bottom:2px solid #8b2020;
   position:relative;
@@ -300,7 +300,7 @@ select:focus,input:focus{border-color:#8b2020;box-shadow:0 0 0 2px rgba(139,32,3
       <div class="add-form">
         <div class="form-row">
           <div><label class="field-label">Date</label><input type="date" id="new-date"></div>
-          <div><label class="field-label">Time</label><input type="text" id="new-time" placeholder="e.g. 3:00 PM"></div>
+          <div><label class="field-label">Time</label><input type="time" id="new-time"></div>
         </div>
         <button class="btn-outline" onclick="addDate()"><i class="ti ti-plus"></i> Add session</button>
       </div>
@@ -363,6 +363,27 @@ async function loadData() {
   } catch(e) {
     document.getElementById('signup-loading').innerHTML = '<div class="error-box">Could not load data. Please refresh.</div>';
   }
+}
+
+function fmtTime(t) {
+  if (!t) return "";
+  t = t.toString();
+  // Handle ISO date string from Sheets (1899-12-30T23:00:00.000Z etc)
+  if (t.includes("T")) {
+    const d = new Date(t);
+    let h = d.getUTCHours(), m = d.getUTCMinutes();
+    const ampm = h >= 12 ? "PM" : "AM";
+    h = h % 12 || 12;
+    return h + ":" + String(m).padStart(2,"0") + " " + ampm;
+  }
+  // Handle HH:MM from time input
+  if (t.includes(":") && !t.includes("M")) {
+    let [h, m] = t.split(":").map(Number);
+    const ampm = h >= 12 ? "PM" : "AM";
+    h = h % 12 || 12;
+    return h + ":" + String(m).padStart(2,"0") + " " + ampm;
+  }
+  return t;
 }
 
 function fmtDate(d) {
@@ -432,7 +453,7 @@ function renderDates() {
     const clickable = !mine && check.ok;
     return `<div class="${cls}" ${clickable ? `onclick="selectDate('${d.id}')"` : ''}>
       <div class="dc-date">${fmtDate(d.date)}</div>
-      <div class="dc-time">${d.time}</div>
+      <div class="dc-time">${fmtTime(d.time)}</div>
       <div class="dc-pips">${pips}</div>
       <div style="font-size:11px;color:#8a6a45;margin-top:4px;">${filled}/${CAP}</div>
       ${tag}
@@ -461,7 +482,7 @@ async function doSignup() {
     signups.push({name:selectedStaff.name, role:selectedStaff.role, dateId:selectedDate});
     const d = dates.find(x => x.id === selectedDate);
     document.getElementById('signup-feedback').innerHTML =
-      `<div class="success-box"><i class="ti ti-check"></i> ${selectedStaff.name} is confirmed for ${fmtDate(d.date)} at ${d.time}. See you there!</div>`;
+      `<div class="success-box"><i class="ti ti-check"></i> ${selectedStaff.name} is confirmed for ${fmtDate(d.date)} at ${fmtTime(d.time)}. See you there!</div>`;
     document.getElementById('cancel-section').style.display = '';
     selectedDate = null; renderDates();
   } catch(e) {
@@ -561,7 +582,7 @@ function renderManager() {
   const dl = document.getElementById('existing-dates-list');
   dl.innerHTML = dates.length ? dates.map(d => `
     <div class="date-row">
-      <span><strong style="font-family:'Cinzel',serif;font-size:12px;">${fmtDate(d.date)}</strong> &nbsp; ${d.time} &nbsp;
+      <span><strong style="font-size:12px;">${fmtDate(d.date)}</strong> &nbsp; ${fmtTime(d.time)} &nbsp;
       <span style="color:#8a6a45;font-size:11px;">${getSlots(d.id).length}/${CAP}</span></span>
       <button class="rm-btn" onclick="removeDate('${d.id}')"><i class="ti ti-trash"></i></button>
     </div>`).join('') : '<p style="font-size:13px;color:#8a6a45;">No sessions added yet.</p>';
@@ -570,7 +591,7 @@ function renderManager() {
   sd.innerHTML = dates.length ? dates.map(d => {
     const sl = getSlots(d.id);
     return `<div style="margin-bottom:12px;">
-      <div style="font-family:'Cinzel',serif;font-size:12px;color:#7a1c1c;margin-bottom:3px;">${fmtDate(d.date)} — ${d.time}</div>
+      <div style="font-size:12px;color:#7a1c1c;margin-bottom:3px;">${fmtDate(d.date)} — ${fmtTime(d.time)}</div>
       <div style="font-size:12px;color:#5a3010;">${sl.length ? sl.map(s=>`${s.name} (${s.role})`).join(', ') : 'No signups yet'}</div>
     </div>`;
   }).join('') : '<p style="font-size:13px;color:#8a6a45;">No sessions added yet.</p>';
