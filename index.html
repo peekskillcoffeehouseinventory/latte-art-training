@@ -398,7 +398,13 @@ async function loadData() {
     dates = data.dates || [];
     signups = data.signups || [];
     console.log('Dates from sheet:', JSON.stringify(dates));
+    console.log('Signups from sheet:', JSON.stringify(signups));
     console.log('Today string:', new Date().toISOString().split('T')[0]);
+    if (dates.length && signups.length) {
+      const testMatch = signups[0].dateId;
+      const testDate = dates.find(d => d.id == testMatch);
+      console.log('Signup dateId:', testMatch, '| Match found:', !!testDate);
+    }
     populateSelect();
     document.getElementById('signup-loading').style.display = 'none';
     document.getElementById('signup-content').style.display = '';
