@@ -396,7 +396,7 @@ async function loadData() {
     const data = await api({action:'getData'});
     staff = data.staff || [];
     dates = data.dates || [];
-    signups = data.signups || [];
+    signups = (data.signups || []).map(s => ({...s, dateId: s.dateId || s.dateID}));
     console.log('Dates from sheet:', JSON.stringify(dates));
     console.log('Signups from sheet:', JSON.stringify(signups));
     console.log('Today string:', new Date().toISOString().split('T')[0]);
@@ -536,7 +536,7 @@ async function doSignup() {
     await api({action:'addSignup', name:selectedStaff.name, role:selectedStaff.role, dateId:selectedDate});
     // Reload fresh from sheet
     const fresh = await api({action:'getData'});
-    signups = fresh.signups || [];
+    signups = (fresh.signups || []).map(s => ({...s, dateId: s.dateId || s.dateID}));
     dates = fresh.dates || [];
     staff = fresh.staff || [];
     document.getElementById('signup-feedback').innerHTML =
@@ -574,7 +574,7 @@ async function doCancel(dateId) {
     await api({action:'cancelSignup', name:selectedStaff.name, dateId:dateId});
     // Reload fresh from sheet
     const freshCancel = await api({action:'getData'});
-    signups = freshCancel.signups || [];
+    signups = (freshCancel.signups || []).map(s => ({...s, dateId: s.dateId || s.dateID}));
     dates = freshCancel.dates || [];
     staff = freshCancel.staff || [];
     document.getElementById('signup-feedback').innerHTML = '';
@@ -599,7 +599,7 @@ async function loadManagerTab() {
   document.getElementById('manager-content').style.display = 'none';
   try {
     const data = await api({action:'getData'});
-    staff = data.staff || []; dates = data.dates || []; signups = data.signups || [];
+    staff = data.staff || []; dates = data.dates || []; signups = (data.signups || []).map(s => ({...s, dateId: s.dateId || s.dateID}));
     populateSelect(); renderManager();
     document.getElementById('manager-loading').style.display = 'none';
     document.getElementById('manager-content').style.display = '';
