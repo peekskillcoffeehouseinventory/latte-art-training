@@ -429,7 +429,8 @@ function fmtTime(t) {
 }
 
 function fmtDate(d) {
-  const [y,m,day] = d.toString().split('-');
+  const clean = d.toString().substring(0,10);
+  const [y,m,day] = clean.split('-');
   const mo = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
   return mo[parseInt(m)-1] + ' ' + parseInt(day);
 }
@@ -472,7 +473,10 @@ function renderDates() {
     return;
   }
   const todayStr = new Date().toISOString().split('T')[0];
-  const futureDates = dates.filter(d => d.date.toString().substring(0,10) >= todayStr);
+  const futureDates = dates.filter(d => {
+    const dStr = d.date.toString().includes('T') ? d.date.toString().substring(0,10) : d.date.toString().substring(0,10);
+    return dStr >= todayStr;
+  });
   if (!futureDates.length) {
     grid.innerHTML = '<p style="font-size:13px;color:#8a6a45;grid-column:1/-1;">No upcoming sessions. Check back soon!</p>';
     return;
@@ -506,7 +510,7 @@ function renderDates() {
 }
 
 function selectDate(id) {
-  if (selectedStaff && mySignup(selectedStaff.name)) return;
+  if (selectedStaff && mySignupForDate(selectedStaff.name, id)) return;
   selectedDate = id; renderDates(); updateBtn();
 }
 
