@@ -471,8 +471,8 @@ function renderDates() {
     grid.innerHTML = '<p style="font-size:13px;color:#8a6a45;grid-column:1/-1;">No sessions available yet.</p>';
     return;
   }
-  const today = new Date(); today.setHours(0,0,0,0);
-  const futureDates = dates.filter(d => new Date(d.date) >= today);
+  const todayStr = new Date().toISOString().split('T')[0];
+  const futureDates = dates.filter(d => d.date.toString().substring(0,10) >= todayStr);
   if (!futureDates.length) {
     grid.innerHTML = '<p style="font-size:13px;color:#8a6a45;grid-column:1/-1;">No upcoming sessions. Check back soon!</p>';
     return;
