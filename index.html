@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <title>PCH Latte Art Training</title>
   <link rel="apple-touch-icon" href="icon.png">
@@ -331,6 +331,17 @@ select:focus,input:focus{border-color:#8b2020;box-shadow:0 0 0 2px rgba(139,32,3
       </div>
     </div>
     <div class="mgr-section">
+      <div class="mgr-title">Class host</div>
+      <div class="add-form">
+        <div style="margin-bottom:10px;">
+          <label class="field-label">Host email (Google Calendar)</label>
+          <input type="email" id="host-email-input" placeholder="e.g. kaitlyn@gmail.com">
+        </div>
+        <div id="host-email-status" style="font-size:12px;color:#8a6a45;margin-bottom:8px;"></div>
+        <button class="btn-outline" onclick="saveHostEmail()"><i class="ti ti-device-floppy"></i> Save host email</button>
+      </div>
+    </div>
+    <div class="mgr-section">
       <div id="last-reset-display"></div>
       <button class="accordion-btn" id="btn-attendance" onclick="toggleAccordion('attendance-panel','btn-attendance')">
         <span>Attendance tracker</span><span class="arrow">▼</span>
@@ -592,6 +603,28 @@ function showTab(t) {
   document.querySelectorAll('.tab').forEach((el,i) =>
     el.classList.toggle('active', (i===0&&t==='signup')||(i===1&&t==='manager')));
   if (t === 'manager') loadManagerTab();
+}
+
+
+async function loadHostEmail() {
+  try {
+    const data = await api({action:'getSetting', key:'host_email'});
+    if (data.value) {
+      document.getElementById('host-email-input').value = data.value;
+      document.getElementById('host-email-status').textContent = 'Current host: ' + data.value;
+    }
+  } catch(e) {}
+}
+
+async function saveHostEmail() {
+  const email = document.getElementById('host-email-input').value.trim();
+  if (!email) return;
+  try {
+    await api({action:'saveSetting', key:'host_email', value:email});
+    document.getElementById('host-email-status').textContent = 'Saved! Current host: ' + email;
+  } catch(e) {
+    document.getElementById('host-email-status').textContent = 'Could not save. Try again.';
+  }
 }
 
 async function loadManagerTab() {
