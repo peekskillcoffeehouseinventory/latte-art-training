@@ -331,15 +331,16 @@ select:focus,input:focus{border-color:#8b2020;box-shadow:0 0 0 2px rgba(139,32,3
       </div>
     </div>
     <div class="mgr-section">
-      <div class="mgr-title">Class host</div>
+      <div class="mgr-title">Class hosts</div>
       <div class="add-form">
         <div style="margin-bottom:10px;">
-          <label class="field-label">Host email (Google Calendar)</label>
+          <label class="field-label">Add host email</label>
           <input type="email" id="host-email-input" placeholder="email@gmail.com">
         </div>
         <div id="host-email-status" style="font-size:12px;color:#8a6a45;margin-bottom:8px;"></div>
-        <button class="btn-outline" onclick="saveHostEmail()"><i class="ti ti-device-floppy"></i> Save host email</button>
+        <button class="btn-outline" onclick="addHost()"><i class="ti ti-plus"></i> Add host</button>
       </div>
+      <div id="hosts-list"></div>
     </div>
     <div class="mgr-section">
       <div id="last-reset-display"></div>
@@ -386,7 +387,7 @@ select:focus,input:focus{border-color:#8b2020;box-shadow:0 0 0 2px rgba(139,32,3
 
 </div>
 <script>
-const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyKw6Ze-UCSWWec4yRXIEGhrAm0i424HxmWEzX8-xBYn1YehU5AILClxATgRT0YvZWY/exec';
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbx3RYog4m9c1HdAMrdmgdMwYtO1I6-KMFRkxcX6ZjYwKk66ksDRfo5E6kgnX5OYAa3M/exec';
 const CAP = 5;
 const JUNIOR = ['JR','AP'];
 const ROLE_ORDER = {MG:0,TL:1,SR:2,JR:3,AP:4};
@@ -606,25 +607,44 @@ function showTab(t) {
 }
 
 
-async function loadHostEmail() {
+async function loadHosts() {
   try {
-    const data = await api({action:'getSetting', key:'host_email'});
-    if (data.value) {
-      document.getElementById('host-email-input').value = data.value;
-      document.getElementById('host-email-status').textContent = 'Current host: ' + data.value;
+    const data = await api({action:'getHosts'});
+    const hosts = data.hosts || [];
+    const list = document.getElementById('hosts-list');
+    if (!hosts.length) {
+      list.innerHTML = '<p style="font-size:13px;color:#8a6a45;">No hosts added yet.</p>';
+      return;
     }
+    list.innerHTML = hosts.map(email => `
+      <div class="staff-row">
+        <span style="font-size:13px;color:#2c1a0e;">${email}</span>
+        <button class="rm-btn" onclick="removeHost('${email}')"><i class="ti ti-trash"></i></button>
+      </div>`).join('');
   } catch(e) {}
 }
 
-async function saveHostEmail() {
+async function addHost() {
   const email = document.getElementById('host-email-input').value.trim();
   if (!email) return;
+  const status = document.getElementById('host-email-status');
+  status.textContent = 'Adding...';
   try {
-    await api({action:'saveSetting', key:'host_email', value:email});
-    document.getElementById('host-email-status').textContent = 'Saved! Current host: ' + email;
+    await api({action:'addHost', email});
+    document.getElementById('host-email-input').value = '';
+    status.textContent = email + ' added! They will receive a calendar share invite.';
+    loadHosts();
   } catch(e) {
-    document.getElementById('host-email-status').textContent = 'Could not save. Try again.';
+    status.textContent = 'Could not add host. Try again.';
   }
+}
+
+async function removeHost(email) {
+  try {
+    await api({action:'removeHost', email});
+    document.getElementById('host-email-status').textContent = email + ' removed.';
+    loadHosts();
+  } catch(e) {}
 }
 
 async function loadManagerTab() {
