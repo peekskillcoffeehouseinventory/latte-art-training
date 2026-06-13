@@ -526,9 +526,13 @@ async function doSignup() {
   btn.disabled = true;
   btn.innerHTML = '<span class="spinner"></span> Saving...';
   try {
-    await api({action:'addSignup', name:selectedStaff.name, role:selectedStaff.role, dateId:selectedDate});
-    signups.push({name:selectedStaff.name, role:selectedStaff.role, dateId:selectedDate});
     const d = dates.find(x => x.id === selectedDate);
+    await api({action:'addSignup', name:selectedStaff.name, role:selectedStaff.role, dateId:selectedDate});
+    // Reload fresh from sheet
+    const fresh = await api({action:'getData'});
+    signups = fresh.signups || [];
+    dates = fresh.dates || [];
+    staff = fresh.staff || [];
     document.getElementById('signup-feedback').innerHTML =
       `<div class="success-box"><i class="ti ti-check"></i> ${selectedStaff.name} is confirmed for ${fmtDate(d.date)} at ${fmtTime(d.time)}. See you there!</div>`;
     selectedDate = null;
@@ -562,7 +566,11 @@ async function doCancel(dateId) {
   if (!selectedStaff) return;
   try {
     await api({action:'cancelSignup', name:selectedStaff.name, dateId:dateId});
-    signups = signups.filter(s => !(s.name === selectedStaff.name && s.dateId === dateId));
+    // Reload fresh from sheet
+    const freshCancel = await api({action:'getData'});
+    signups = freshCancel.signups || [];
+    dates = freshCancel.dates || [];
+    staff = freshCancel.staff || [];
     document.getElementById('signup-feedback').innerHTML = '';
     renderDates();
     renderSignedUpDates();
