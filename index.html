@@ -293,13 +293,9 @@ select:focus,input:focus{border-color:#8b2020;box-shadow:0 0 0 2px rgba(139,32,3
       <div class="date-grid" id="date-grid"></div>
     </div>
     <div id="signup-feedback"></div>
-    <div id="cancel-section" style="display:none;">
-      <button class="btn-outline" onclick="showCancelConfirm()"><i class="ti ti-x"></i> Cancel my signup</button>
-      <div id="cancel-confirm" style="display:none;">
-        <div class="cancel-box">Are you sure? This will open your slot for others.<br>
-          <button class="btn-danger-outline" onclick="doCancel()">Yes, cancel my signup</button>
-        </div>
-      </div>
+    <div id="cancel-section" style="display:none;margin-top:12px;">
+      <label class="field-label">Your signed-up sessions</label>
+      <div id="my-signups-list"></div>
     </div>
     <button class="btn-primary" id="signup-btn" disabled onclick="doSignup()">Confirm Signup</button>
   </div>
@@ -443,7 +439,7 @@ function canSignup(dateId, role) {
   return {ok:true};
 }
 
-function mySignup(name) { return signups.find(s => s.name === name) || null; }
+function mySignups(name) { return signups.filter(s => s.name === name); }
 function mySignupForDate(name, dateId) { return signups.find(s => s.name === name && s.dateId === dateId) || null; }
 
 function populateSelect() {
@@ -463,9 +459,7 @@ function onStaffChange() {
   document.getElementById('cancel-confirm').style.display = 'none';
   renderDates();
   updateBtn();
-  if (selectedStaff && mySignup(selectedStaff.name)) {
-    document.getElementById('cancel-section').style.display = '';
-  }
+  renderSignedUpDates();
 }
 
 function renderDates() {
@@ -516,7 +510,7 @@ function selectDate(id) {
 function updateBtn() {
   const btn = document.getElementById('signup-btn');
   if (!selectedStaff || !selectedDate) { btn.disabled = true; return; }
-  btn.disabled = !canSignup(selectedDate, selectedStaff.role).ok || !!mySignup(selectedStaff.name);
+  btn.disabled = !canSignup(selectedDate, selectedStaff.role).ok || !!mySignupForDate(selectedStaff.name, selectedDate);
 }
 
 async function doSignup() {
@@ -530,8 +524,9 @@ async function doSignup() {
     const d = dates.find(x => x.id === selectedDate);
     document.getElementById('signup-feedback').innerHTML =
       `<div class="success-box"><i class="ti ti-check"></i> ${selectedStaff.name} is confirmed for ${fmtDate(d.date)} at ${fmtTime(d.time)}. See you there!</div>`;
-    document.getElementById('cancel-section').style.display = '';
-    selectedDate = null; renderDates();
+    selectedDate = null;
+    renderDates();
+    renderSignedUpDates();
   } catch(e) {
     document.getElementById('signup-feedback').innerHTML = '<div class="error-box">Something went wrong. Please try again.</div>';
   }
@@ -539,22 +534,32 @@ async function doSignup() {
   updateBtn();
 }
 
-function showCancelConfirm() {
-  const cc = document.getElementById('cancel-confirm');
-  cc.style.display = cc.style.display === 'none' ? '' : 'none';
+function renderSignedUpDates() {
+  if (!selectedStaff) return;
+  const myList = mySignups(selectedStaff.name);
+  const section = document.getElementById('cancel-section');
+  const listEl = document.getElementById('my-signups-list');
+  if (!myList.length) { section.style.display = 'none'; return; }
+  section.style.display = '';
+  listEl.innerHTML = myList.map(s => {
+    const d = dates.find(x => x.id === s.dateId);
+    if (!d) return '';
+    return `<div style="display:flex;align-items:center;justify-content:space-between;padding:8px 10px;background:#fff;border:1px solid #e0c9a8;border-radius:8px;margin-bottom:6px;">
+      <span style="font-size:13px;color:#2c1a0e;">${fmtDate(d.date)} — ${fmtTime(d.time)}</span>
+      <button onclick="doCancel('${s.dateId}')" style="background:none;border:none;color:#8b2020;cursor:pointer;font-size:12px;padding:2px 6px;">✕ Cancel</button>
+    </div>`;
+  }).join('');
 }
 
-async function doCancel() {
+async function doCancel(dateId) {
   if (!selectedStaff) return;
-  const existing = mySignup(selectedStaff.name);
-  if (!existing) return;
   try {
-    await api({action:'cancelSignup', name:selectedStaff.name, dateId:existing.dateId});
-    signups = signups.filter(s => s.name !== selectedStaff.name);
+    await api({action:'cancelSignup', name:selectedStaff.name, dateId:dateId});
+    signups = signups.filter(s => !(s.name === selectedStaff.name && s.dateId === dateId));
     document.getElementById('signup-feedback').innerHTML = '';
-    document.getElementById('cancel-section').style.display = 'none';
-    document.getElementById('cancel-confirm').style.display = 'none';
-    selectedDate = null; renderDates(); updateBtn();
+    renderDates();
+    renderSignedUpDates();
+    updateBtn();
   } catch(e) {
     document.getElementById('signup-feedback').innerHTML = '<div class="error-box">Could not cancel. Please try again.</div>';
   }
