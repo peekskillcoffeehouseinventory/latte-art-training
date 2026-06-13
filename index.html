@@ -397,6 +397,8 @@ async function loadData() {
     staff = data.staff || [];
     dates = data.dates || [];
     signups = data.signups || [];
+    console.log('Dates from sheet:', JSON.stringify(dates));
+    console.log('Today string:', new Date().toISOString().split('T')[0]);
     populateSelect();
     document.getElementById('signup-loading').style.display = 'none';
     document.getElementById('signup-content').style.display = '';
