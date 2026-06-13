@@ -248,6 +248,12 @@ select:focus,input:focus{border-color:#8b2020;box-shadow:0 0 0 2px rgba(139,32,3
 .accordion-btn.open .arrow{transform:rotate(180deg);}
 .accordion-content{display:none;padding:8px 0 4px 0;}
 .accordion-content.open{display:block;}
+
+.past-tag{font-size:10px;padding:2px 7px;border-radius:4px;background:#f0ede8;color:#8a6a45;margin-left:6px;}
+.reset-btn{width:100%;padding:10px 14px;background:#fff0f0;border:1px solid #c9a07a;border-radius:8px;cursor:pointer;font-size:13px;font-weight:500;color:#8b2020;text-align:left;display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;}
+.reset-btn:hover{background:#fde8e8;}
+.last-reset{font-size:11px;color:#8a6a45;margin-bottom:12px;padding:6px 10px;background:#fff8f0;border-radius:6px;border:1px solid #e0c9a8;}
+.quarter-warn{display:inline-block;width:8px;height:8px;border-radius:50%;background:#e0a020;margin-right:6px;vertical-align:middle;}
 </style>
 </head>
 <body>
@@ -314,15 +320,34 @@ select:focus,input:focus{border-color:#8b2020;box-shadow:0 0 0 2px rgba(139,32,3
       <div id="existing-dates-list"></div>
     </div>
     <div class="mgr-section">
-      <div class="mgr-title">Signups by session</div>
+      <div class="mgr-title">Upcoming signups</div>
       <div id="signups-by-date"></div>
     </div>
     <div class="mgr-section">
+      <button class="accordion-btn" id="btn-past" onclick="toggleAccordion('past-panel','btn-past')">
+        <span>Past sessions</span><span class="arrow">▼</span>
+      </button>
+      <div class="accordion-content" id="past-panel">
+        <div id="past-sessions-list"></div>
+      </div>
+    </div>
+    <div class="mgr-section">
+      <div id="last-reset-display"></div>
       <button class="accordion-btn" id="btn-attendance" onclick="toggleAccordion('attendance-panel','btn-attendance')">
         <span>Attendance tracker</span><span class="arrow">▼</span>
       </button>
       <div class="accordion-content" id="attendance-panel">
         <div id="compliance-table"></div>
+        <div style="margin-top:12px;">
+          <button class="reset-btn" onclick="confirmReset()">
+            <span>Reset quarterly attendance</span><span style="font-size:16px;">↺</span>
+          </button>
+          <div id="reset-confirm" style="display:none;">
+            <div class="cancel-box" style="margin-top:6px;">This will reset everyone's attendance count for the new quarter. Raw data is preserved.<br>
+              <button class="btn-danger-outline" style="margin-top:8px;" onclick="doResetAttendance()">Yes, start new quarter</button>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
     <div class="mgr-section">
@@ -449,7 +474,13 @@ function renderDates() {
     grid.innerHTML = '<p style="font-size:13px;color:#8a6a45;grid-column:1/-1;">No sessions available yet.</p>';
     return;
   }
-  grid.innerHTML = dates.map(d => {
+  const today = new Date(); today.setHours(0,0,0,0);
+  const futureDates = dates.filter(d => new Date(d.date) >= today);
+  if (!futureDates.length) {
+    grid.innerHTML = '<p style="font-size:13px;color:#8a6a45;grid-column:1/-1;">No upcoming sessions. Check back soon!</p>';
+    return;
+  }
+  grid.innerHTML = futureDates.map(d => {
     const slots = getSlots(d.id);
     const filled = slots.length;
     const mine = mySignupForDate(selectedStaff.name, d.id);
@@ -614,12 +645,23 @@ function renderManager() {
 
   const ct = document.getElementById('compliance-table');
   const sorted = [...staff].sort((a,b) => ROLE_ORDER[a.role] - ROLE_ORDER[b.role] || a.name.localeCompare(b.name));
+  const lastResetDate = localStorage.getItem('pch_last_reset') ? new Date(localStorage.getItem('pch_last_reset')) : null;
   ct.innerHTML = sorted.map(s => {
-    const count = signups.filter(x => x.name === s.name).length;
+    const allCount = signups.filter(x => x.name === s.name).length;
+    const quarterCount = lastResetDate
+      ? signups.filter(x => x.name === s.name && new Date(x.ts) >= lastResetDate).length
+      : allCount;
+    const needsClass = quarterCount === 0;
     return `<div class="comp-row">
-      <div><span style="font-size:13px;font-weight:500;color:#2c1a0e;">${s.name}</span>
-      &nbsp;<span class="rbadge ${ROLE_CLASS[s.role]}">${ROLE_NAME[s.role]}</span></div>
-      <div style="font-size:13px;color:${count===0?'#8b2020':'#2d6a1f'};">${count===0?'Not signed up':count+' class'+(count>1?'es':'')}</div>
+      <div>
+        ${needsClass ? '<span class="quarter-warn" title="Needs a class this quarter"></span>' : ''}
+        <span style="font-size:13px;font-weight:500;color:#2c1a0e;">${s.name}</span>
+        &nbsp;<span class="rbadge ${ROLE_CLASS[s.role]}">${ROLE_NAME[s.role]}</span>
+      </div>
+      <div style="text-align:right;">
+        <div style="font-size:13px;color:${needsClass?'#8b2020':'#2d6a1f'};">${quarterCount===0?'Needs a class':quarterCount+' this quarter'}</div>
+        <div style="font-size:11px;color:#8a6a45;">${allCount} total</div>
+      </div>
     </div>`;
   }).join('');
 
@@ -636,6 +678,18 @@ function renderManager() {
     </div>`).join('');
 }
 
+
+
+function confirmReset() {
+  const rc = document.getElementById('reset-confirm');
+  rc.style.display = rc.style.display === 'none' ? '' : 'none';
+}
+
+function doResetAttendance() {
+  localStorage.setItem('pch_last_reset', new Date().toISOString());
+  document.getElementById('reset-confirm').style.display = 'none';
+  renderManager();
+}
 
 function toggleAccordion(panelId, btnId) {
   const panel = document.getElementById(panelId);
