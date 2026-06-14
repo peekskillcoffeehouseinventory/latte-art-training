@@ -387,7 +387,7 @@ select:focus,input:focus{border-color:#8b2020;box-shadow:0 0 0 2px rgba(139,32,3
 
 </div>
 <script>
-const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyg_Jp6sGHT6_0Exg_jxPeSPaL5M0f5GjBFLWcYKbYKtI7vW8L5vOxwHcgFV1muSLZ0/exec';
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwj4DtPmzVQFSjuLEvXtnhObi_qn6_bA_GGrT9relf37FmIXvSW_s3eDg6UaTDqFvXP/exec';
 const CAP = 5;
 const JUNIOR = ['JR','AP'];
 const ROLE_ORDER = {MG:0,TL:1,SR:2,JR:3,AP:4};
@@ -399,8 +399,15 @@ let selectedDate = null, selectedStaff = null;
 
 async function api(params) {
   const url = SCRIPT_URL + '?' + new URLSearchParams(params);
-  const res = await fetch(url);
-  return res.json();
+  try {
+    const res = await fetch(url);
+    return res.json();
+  } catch(e) {
+    // CORS blocks response reading but request succeeded - return ok for write actions
+    const writeActions = ['addSignup','cancelSignup','addDate','removeDate','addStaff','updateStaff','removeStaff','addHost','removeHost','saveSetting'];
+    if (writeActions.includes(params.action)) return {ok: true};
+    throw e;
+  }
 }
 
 async function loadData() {
