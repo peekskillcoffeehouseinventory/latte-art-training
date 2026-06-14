@@ -1,0 +1,22 @@
+{
+  "name": "PCH Latte Art Training",
+  "short_name": "PCH Training",
+  "description": "Peekskill Coffee House latte art training signup",
+  "start_url": "/latte-art-training/",
+  "display": "standalone",
+  "background_color": "#fdf6ee",
+  "theme_color": "#8b2020",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "icon.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "icon.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
