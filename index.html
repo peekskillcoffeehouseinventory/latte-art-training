@@ -387,7 +387,7 @@ select:focus,input:focus{border-color:#8b2020;box-shadow:0 0 0 2px rgba(139,32,3
 
 </div>
 <script>
-const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyselYLhhQSXC52-BNhvlagoodIoVKvVym8uvEsHPPRCXmt0nTdR0gk94c1oWMz5tlD/exec';
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwzZIfPi1Bir3a8TP7fHA-8svt1Y7QWv2h6c5xVIjZ1nw3hFtV-BeUp93c_q7AkvZB8/exec';
 const CAP = 5;
 const JUNIOR = ['JR','AP'];
 const ROLE_ORDER = {MG:0,TL:1,SR:2,JR:3,AP:4};
@@ -545,7 +545,7 @@ async function doSignup() {
   btn.innerHTML = '<span class="spinner"></span> Saving...';
   try {
     const d = dates.find(x => x.id === selectedDate);
-    await api({action:'addSignup', name:selectedStaff.name, role:selectedStaff.role, dateId:selectedDate});
+    await api({action:'addSignup', name:selectedStaff.name, role:selectedStaff.role, dateid:selectedDate});
     // Reload fresh from sheet
     const fresh = await api({action:'getData'});
     signups = (fresh.signups || []).map(s => ({...s, dateId: s.dateId || s.dateID}));
@@ -583,7 +583,7 @@ function renderSignedUpDates() {
 async function doCancel(dateId) {
   if (!selectedStaff) return;
   try {
-    await api({action:'cancelSignup', name:selectedStaff.name, dateId:dateId});
+    await api({action:'cancelSignup', name:selectedStaff.name, dateid:dateId});
     // Reload fresh from sheet
     const freshCancel = await api({action:'getData'});
     signups = (freshCancel.signups || []).map(s => ({...s, dateId: s.dateId || s.dateID}));
