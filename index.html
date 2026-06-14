@@ -779,6 +779,8 @@ function toggleAccordion(panelId, btnId) {
 }
 
 loadData();
+async function initHosts(){try{const data=await api({action:"getHosts"});const hosts=data.hosts||[];const list=document.getElementById("hosts-list");if(!list)return;if(!hosts.length){list.innerHTML='<p style="font-size:13px;color:#8a6a45;">No hosts added yet.</p>';return;}list.innerHTML=hosts.map(email=>`<div class="staff-row"><span style="font-size:13px;color:#2c1a0e;">${email}</span><button class="rm-btn" onclick="removeHost('${email}')"><i class="ti ti-trash"></i></button></div>`).join('');}catch(e){}}
+initHosts();
 </script>
 </body>
 </html>
