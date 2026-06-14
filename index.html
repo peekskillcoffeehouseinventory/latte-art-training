@@ -387,7 +387,7 @@ select:focus,input:focus{border-color:#8b2020;box-shadow:0 0 0 2px rgba(139,32,3
 
 </div>
 <script>
-const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbx3RYog4m9c1HdAMrdmgdMwYtO1I6-KMFRkxcX6ZjYwKk66ksDRfo5E6kgnX5OYAa3M/exec';
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxtf7EikAehFKL_n9dlvY0Yflq8gUSSe2JAW5a1dXvPkdF8qXEdcxGAUeGqEmoxdhha/exec';
 const CAP = 5;
 const JUNIOR = ['JR','AP'];
 const ROLE_ORDER = {MG:0,TL:1,SR:2,JR:3,AP:4};
@@ -409,14 +409,6 @@ async function loadData() {
     staff = data.staff || [];
     dates = data.dates || [];
     signups = (data.signups || []).map(s => ({...s, dateId: s.dateId || s.dateID}));
-    console.log('Dates from sheet:', JSON.stringify(dates));
-    console.log('Signups from sheet:', JSON.stringify(signups));
-    console.log('Today string:', new Date().toISOString().split('T')[0]);
-    if (dates.length && signups.length) {
-      const testMatch = signups[0].dateId;
-      const testDate = dates.find(d => d.id == testMatch);
-      console.log('Signup dateId:', testMatch, '| Match found:', !!testDate);
-    }
     populateSelect();
     document.getElementById('signup-loading').style.display = 'none';
     document.getElementById('signup-content').style.display = '';
