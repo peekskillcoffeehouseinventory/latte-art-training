@@ -4,14 +4,15 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="PCH Training">
+<meta name="theme-color" content="#8b2020">
 <title>PCH Latte Art Training</title>
-  <link rel="apple-touch-icon" href="icon.png">
-  <link rel="manifest" href="manifest.json">
-  <meta name="theme-color" content="#8b2020">
-  <link rel="icon" type="image/png" href="icon.png">
-  <meta name="apple-mobile-web-app-title" content="PCH Training">
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="apple-touch-icon" href="icon.png">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" type="image/png" href="icon.png">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.44.0/tabler-icons.min.css">
 <style>
 *{box-sizing:border-box;margin:0;padding:0;}
@@ -24,241 +25,112 @@ body{font-family:'DM Sans',sans-serif;background:#f5ede0;min-height:100vh;}
 .hero-overlay{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;padding:1.5rem;}
 .hero-logo-img{max-width:240px;width:65%;object-fit:contain;filter:drop-shadow(0 2px 8px rgba(0,0,0,0.5));}
 
-/* PINSTRIPE BRICK BAND — tab bar */
-.tab-bar{
-  display:flex;
-  background:#8b2020;
-  border-top:2px solid #f5e6c8;
-  border-bottom:2px solid #f5e6c8;
-  box-shadow:
-    inset 0 1px 0 rgba(255,255,255,0.15),
-    inset 0 -1px 0 rgba(255,255,255,0.15),
-    inset 0 3px 0 rgba(255,255,255,0.07),
-    inset 0 -3px 0 rgba(255,255,255,0.07);
-  position:relative;
-}
-.tab-bar::before,
-.tab-bar::after{
-  content:'';
-  position:absolute;
-  left:0;right:0;
-  height:1px;
-  background:rgba(255,255,255,0.2);
-  pointer-events:none;
-}
-.tab-bar::before{top:5px;}
-.tab-bar::after{bottom:5px;}
+/* GREETING BAR */
+.greeting-bar{background:#2c1a0e;padding:10px 16px;display:flex;align-items:center;justify-content:space-between;}
+.greeting-text{font-size:14px;color:#f0d9b5;font-weight:500;}
+.edit-btn-small{background:none;border:none;font-size:12px;color:#c9a96a;cursor:pointer;text-decoration:underline;padding:0;}
 
-.tab{
-  flex:1;padding:11px 8px;
-  font-size:11px;letter-spacing:2px;
-  text-align:center;cursor:pointer;
-  color:#f5e6c8;
-  border:none;background:none;
-  font-weight:400;
-  transition:background 0.15s;
-}
-.tab.active{
-  color:#fff;
-  background:rgba(0,0,0,0.2);
-  font-weight:600;
-  border-bottom:3px solid #f5e6c8;
-}
+/* TABS */
+.tab-bar{display:flex;background:#8b2020;border-top:2px solid #f5e6c8;border-bottom:2px solid #f5e6c8;box-shadow:inset 0 1px 0 rgba(255,255,255,0.15),inset 0 -1px 0 rgba(255,255,255,0.15);position:relative;}
+.tab-bar::before,.tab-bar::after{content:'';position:absolute;left:0;right:0;height:1px;background:rgba(255,255,255,0.2);pointer-events:none;}
+.tab-bar::before{top:5px;}.tab-bar::after{bottom:5px;}
+.tab{flex:1;padding:11px 8px;font-size:11px;letter-spacing:2px;text-align:center;cursor:pointer;color:#f5e6c8;border:none;background:none;font-weight:400;transition:background 0.15s;}
+.tab.active{color:#fff;background:rgba(0,0,0,0.2);border-bottom:3px solid #f5e6c8;font-weight:600;}
 .tab:hover:not(.active){background:rgba(0,0,0,0.1);}
 
-/* WELCOME */
-.welcome-band{
-  background:#7a1c1c;
-  padding:1.25rem 1.25rem 1rem;
-  border-bottom:3px solid #f5e6c8;
-  position:relative;
-  overflow:hidden;
-}
-/* pinstripes on welcome band */
-.welcome-band::before{
-  content:'';
-  position:absolute;
-  top:0;left:0;right:0;
-  height:2px;
-  background:repeating-linear-gradient(
-    90deg,
-    transparent,transparent 8px,
-    rgba(245,230,200,0.3) 8px,rgba(245,230,200,0.3) 9px
-  );
-}
-.welcome-band::after{
-  content:'';
-  position:absolute;
-  bottom:0;left:0;right:0;
-  height:2px;
-  background:repeating-linear-gradient(
-    90deg,
-    transparent,transparent 8px,
-    rgba(245,230,200,0.3) 8px,rgba(245,230,200,0.3) 9px
-  );
-}
+/* WELCOME BAND */
+.welcome-band{background:#7a1c1c;padding:1.25rem 1.25rem 1rem;border-bottom:3px solid #f5e6c8;position:relative;overflow:hidden;}
+.welcome-band::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:repeating-linear-gradient(90deg,transparent,transparent 8px,rgba(245,230,200,0.3) 8px,rgba(245,230,200,0.3) 9px);}
+.welcome-band::after{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;background:repeating-linear-gradient(90deg,transparent,transparent 8px,rgba(245,230,200,0.3) 8px,rgba(245,230,200,0.3) 9px);}
 .welcome-band p{font-size:13px;line-height:1.7;color:#f0d9b5;}
 .welcome-band strong{color:#fff;}
-.commit-notice{
-  margin-top:10px;padding:8px 12px;
-  border-left:3px solid #f5e6c8;
-  background:rgba(0,0,0,0.2);
-  border-radius:0 6px 6px 0;
-  font-size:12px;color:#f5e6c8;
-  line-height:1.5;
-}
+.commit-notice{margin-top:10px;padding:8px 12px;border-left:3px solid #f5e6c8;background:rgba(0,0,0,0.2);border-radius:0 6px 6px 0;font-size:12px;color:#f5e6c8;line-height:1.5;}
+.divider{height:6px;background:#8b2020;position:relative;overflow:hidden;}
+.divider::before{content:'';position:absolute;inset:0;background:repeating-linear-gradient(90deg,transparent,transparent 12px,rgba(255,255,255,0.08) 12px,rgba(255,255,255,0.08) 13px);}
+
+/* REGISTRATION SCREEN */
+.reg-screen{padding:2rem 1.25rem;text-align:center;}
+.reg-screen h2{font-size:18px;font-weight:600;color:#2c1a0e;margin-bottom:8px;}
+.reg-screen p{font-size:13px;color:#8a6a45;margin-bottom:1.5rem;line-height:1.6;}
+.reg-form{text-align:left;}
 
 /* BODY */
 .body{padding:1.25rem;}
-.field-label{
-  font-size:10px;letter-spacing:2px;
-  color:#8b2020;
-  margin-bottom:6px;display:block;font-weight:600;
-}
-select,input[type=text],input[type=date]{
-  width:100%;font-size:14px;
-  background:#fff;color:#2c1a0e;
-  border:1px solid #c9a07a;
-  border-radius:6px;padding:9px 10px;outline:none;
-  -webkit-appearance:none;appearance:none;
-}
+.field-label{font-size:10px;letter-spacing:2px;color:#8b2020;margin-bottom:6px;display:block;font-weight:600;}
+select,input[type=text],input[type=email],input[type=date],input[type=number]{width:100%;font-size:14px;background:#fff;color:#2c1a0e;border:1px solid #c9a07a;border-radius:6px;padding:9px 10px;outline:none;-webkit-appearance:none;appearance:none;}
 select:focus,input:focus{border-color:#8b2020;box-shadow:0 0 0 2px rgba(139,32,32,0.1);}
+.form-group{margin-bottom:1rem;}
+
+/* LEVEL BADGE */
+.level-badge{display:inline-block;font-size:11px;padding:3px 10px;border-radius:12px;font-weight:600;letter-spacing:0.5px;}
+.level-basic{background:#fdf6ec;color:#854f0b;border:1px solid #e8c98a;}
+.level-advanced{background:#f0f4ff;color:#2d4a9e;border:1px solid #a0b4e8;}
 
 /* DATE CARDS */
 .date-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:0.5rem;}
-.date-card{
-  background:#fff;
-  border:1px solid #e0c9a8;
-  border-radius:10px;padding:12px;
-  cursor:pointer;transition:all 0.15s;
-}
-.date-card:hover:not(.dc-full):not(.dc-reserved){
-  border-color:#8b2020;
-  box-shadow:0 2px 8px rgba(139,32,32,0.12);
-}
+.date-card{background:#fff;border:1px solid #e0c9a8;border-radius:10px;padding:12px;cursor:pointer;transition:all 0.15s;}
+.date-card:hover:not(.dc-full){border-color:#8b2020;box-shadow:0 2px 8px rgba(139,32,32,0.12);}
 .date-card.dc-full{opacity:0.4;cursor:not-allowed;}
-.date-card.dc-reserved{opacity:0.4;cursor:not-allowed;}
-.date-card.dc-selected{
-  border:2px solid #8b2020;
-  background:#fff8f8;
-  box-shadow:0 2px 10px rgba(139,32,32,0.15);
-}
-.date-card.dc-mine{
-  border:2px solid #5a8a3a;
-  background:#f6faf2;
-}
-.dc-date{font-size:13px;font-weight:600;color:#2c1a0e;}
+.date-card.dc-selected{border:2px solid #8b2020;background:#fff8f8;}
+.date-card.dc-mine{border:2px solid #5a8a3a;background:#f6faf2;}
+.dc-date{font-size:14px;font-weight:600;color:#2c1a0e;}
 .dc-time{font-size:11px;color:#8a6a45;margin-top:2px;}
+.dc-level{margin-top:5px;}
 .dc-pips{display:flex;gap:3px;margin-top:8px;}
 .pip{width:9px;height:9px;border-radius:50%;background:#e0c9a8;}
 .pip.p-filled{background:#8b2020;}
-.pip.p-reserved{background:#f5ede0;border:1px dashed #c9a07a;}
 .dc-tag{display:inline-block;font-size:10px;padding:2px 7px;border-radius:4px;margin-top:6px;letter-spacing:0.5px;}
 .tag-full{background:#fdf0f0;color:#8b2020;}
-.tag-reserved{background:#fff8ec;color:#854f0b;}
 .tag-mine{background:#f0faf4;color:#2d6a1f;}
 
 /* BUTTONS */
-.btn-primary{
-  width:100%;padding:12px;
-  font-size:12px;letter-spacing:2px;
-  background:#8b2020;color:#f5e6c8;
-  border:none;border-radius:8px;cursor:pointer;margin-top:1rem;
-  box-shadow:inset 0 1px 0 rgba(255,255,255,0.15),inset 0 -1px 0 rgba(0,0,0,0.2);
-  position:relative;overflow:hidden;
-  transition:background 0.15s;
-}
-.btn-primary::before{
-  content:'';position:absolute;top:3px;left:0;right:0;height:1px;
-  background:rgba(255,255,255,0.2);
-}
-.btn-primary::after{
-  content:'';position:absolute;bottom:3px;left:0;right:0;height:1px;
-  background:rgba(255,255,255,0.1);
-}
+.btn-primary{width:100%;padding:12px;font-size:13px;font-weight:600;letter-spacing:1px;background:#8b2020;color:#f5e6c8;border:none;border-radius:8px;cursor:pointer;margin-top:1rem;transition:background 0.15s;}
 .btn-primary:hover:not(:disabled){background:#a02525;}
 .btn-primary:disabled{opacity:0.3;cursor:not-allowed;}
-.btn-outline{
-  width:100%;padding:9px;font-size:13px;
-  background:none;border:1px solid #c9a07a;
-  border-radius:8px;cursor:pointer;color:#5a3010;margin-top:8px;
-  transition:all 0.15s;
-}
+.btn-outline{width:100%;padding:9px;font-size:13px;background:none;border:1px solid #c9a07a;border-radius:8px;cursor:pointer;color:#5a3010;margin-top:8px;transition:all 0.15s;}
 .btn-outline:hover{background:#f5ede0;border-color:#8b2020;}
-.btn-danger-outline{
-  width:100%;padding:9px;font-size:13px;
-  background:none;border:1px solid #8b2020;
-  border-radius:8px;cursor:pointer;color:#8b2020;margin-top:8px;
-}
+.btn-danger-outline{width:100%;padding:9px;font-size:13px;background:none;border:1px solid #8b2020;border-radius:8px;cursor:pointer;color:#8b2020;margin-top:8px;}
 
 /* FEEDBACK */
 .success-box{background:#f2fae8;border:1px solid #5a8a3a;border-radius:8px;padding:12px;font-size:13px;color:#2d6a1f;margin-top:1rem;text-align:center;}
-.cancel-box{background:#fff8ec;border:1px solid #c9a07a;border-radius:8px;padding:12px;font-size:13px;color:#854f0b;margin-top:1rem;text-align:center;}
 .error-box{background:#fdf0f0;border:1px solid #8b2020;border-radius:8px;padding:12px;font-size:13px;color:#8b2020;margin-top:1rem;text-align:center;}
 .loading{text-align:center;padding:2rem;color:#8a6a45;font-size:13px;}
 
 /* MANAGER */
 .mgr-section{margin-bottom:1.5rem;}
-.mgr-title{
-  font-size:11px;letter-spacing:2px;
-  color:#8b2020;margin-bottom:0.75rem;padding-bottom:6px;
-  border-bottom:2px solid #8b2020;
-  position:relative;
-}
-.mgr-title::after{
-  content:'';position:absolute;bottom:-4px;left:0;right:0;height:1px;
-  background:repeating-linear-gradient(
-    90deg,transparent,transparent 4px,
-    #e0c9a8 4px,#e0c9a8 5px
-  );
-}
+.mgr-title{font-size:11px;letter-spacing:2px;color:#8b2020;margin-bottom:0.75rem;padding-bottom:6px;border-bottom:2px solid #8b2020;position:relative;}
+.mgr-title::after{content:'';position:absolute;bottom:-4px;left:0;right:0;height:1px;background:repeating-linear-gradient(90deg,transparent,transparent 4px,#e0c9a8 4px,#e0c9a8 5px);}
 .add-form{background:#fff8f0;border:1px solid #e0c9a8;border-radius:10px;padding:1rem;margin-bottom:0.75rem;}
 .form-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px;}
+.form-row-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:10px;}
 .date-row{display:flex;align-items:center;justify-content:space-between;padding:8px 10px;background:#fff;border:1px solid #e0c9a8;border-radius:8px;margin-bottom:6px;font-size:13px;}
 .rm-btn{background:none;border:none;color:#8b2020;cursor:pointer;font-size:16px;padding:0 4px;}
 .comp-row{display:flex;align-items:center;justify-content:space-between;padding:8px 0;border-bottom:1px dotted #e0c9a8;font-size:13px;}
 .comp-row:last-child{border-bottom:none;}
 .rbadge{font-size:10px;padding:2px 7px;border-radius:4px;letter-spacing:0.5px;}
-.rb-mg{background:#7a1c1c;color:#f5e6c8;} .rb-mg{background:#7a1c1c;color:#f5e6c8;} .rb-tl{background:#fdf0f0;color:#7a1c1c;}
-.rb-sr{background:#f5ede0;color:#5a3010;}
-.rb-jr{background:#fff8ec;color:#854f0b;}
-.rb-ap{background:#f5f5f5;color:#555;}
+.rb-mg{background:#7a1c1c;color:#f5e6c8;}.rb-tl{background:#fdf0f0;color:#7a1c1c;}.rb-sr{background:#f5ede0;color:#5a3010;}.rb-jr{background:#fff8ec;color:#854f0b;}.rb-ap{background:#f5f5f5;color:#555;}
 .staff-row{display:flex;align-items:center;justify-content:space-between;padding:8px 10px;background:#fff;border:1px solid #e0c9a8;border-radius:8px;margin-bottom:6px;font-size:13px;}
-.spinner{display:inline-block;width:14px;height:14px;border:2px solid #e0c9a8;border-top-color:#8b2020;border-radius:50%;animation:spin 0.7s linear infinite;vertical-align:middle;margin-right:6px;}
-@keyframes spin{to{transform:rotate(360deg);}}
-
-/* SECTION DIVIDER */
-.divider{
-  height:6px;
-  background:#8b2020;
-  margin:0;
-  box-shadow:
-    inset 0 1px 0 rgba(255,255,255,0.2),
-    inset 0 -1px 0 rgba(0,0,0,0.2);
-  position:relative;
-  overflow:hidden;
-}
-.divider::before{
-  content:'';position:absolute;inset:0;
-  background:repeating-linear-gradient(
-    90deg,
-    transparent,transparent 12px,
-    rgba(255,255,255,0.08) 12px,rgba(255,255,255,0.08) 13px
-  );
-}
-
 .accordion-btn{width:100%;padding:10px 14px;background:#fff8f0;border:1px solid #e0c9a8;border-radius:8px;cursor:pointer;font-size:13px;font-weight:500;color:#7a1c1c;text-align:left;display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;}
 .accordion-btn:hover{background:#f5ede0;}
 .accordion-btn .arrow{transition:transform 0.2s;font-size:11px;color:#8a6a45;}
 .accordion-btn.open .arrow{transform:rotate(180deg);}
 .accordion-content{display:none;padding:8px 0 4px 0;}
 .accordion-content.open{display:block;}
-
-.past-tag{font-size:10px;padding:2px 7px;border-radius:4px;background:#f0ede8;color:#8a6a45;margin-left:6px;}
-.reset-btn{width:100%;padding:10px 14px;background:#fff0f0;border:1px solid #c9a07a;border-radius:8px;cursor:pointer;font-size:13px;font-weight:500;color:#8b2020;text-align:left;display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;}
-.reset-btn:hover{background:#fde8e8;}
 .last-reset{font-size:11px;color:#8a6a45;margin-bottom:12px;padding:6px 10px;background:#fff8f0;border-radius:6px;border:1px solid #e0c9a8;}
 .quarter-warn{display:inline-block;width:8px;height:8px;border-radius:50%;background:#e0a020;margin-right:6px;vertical-align:middle;}
+.reset-btn{width:100%;padding:10px 14px;background:#fff0f0;border:1px solid #c9a07a;border-radius:8px;cursor:pointer;font-size:13px;font-weight:500;color:#8b2020;text-align:left;display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;}
+.reset-btn:hover{background:#fde8e8;}
+
+/* RADIO TOGGLE */
+.radio-group{display:flex;gap:8px;margin-top:4px;}
+.radio-option{flex:1;position:relative;}
+.radio-option input{position:absolute;opacity:0;width:0;height:0;}
+.radio-option label{display:block;text-align:center;padding:8px;border:1px solid #c9a07a;border-radius:6px;font-size:13px;cursor:pointer;transition:all 0.15s;color:#5a3010;background:#fff;}
+.radio-option input:checked + label{background:#8b2020;color:#fff;border-color:#8b2020;font-weight:600;}
+
+/* SPINNER */
+.spinner{display:inline-block;width:14px;height:14px;border:2px solid #e0c9a8;border-top-color:#8b2020;border-radius:50%;animation:spin 0.7s linear infinite;vertical-align:middle;margin-right:6px;}
+@keyframes spin{to{transform:rotate(360deg);}}
 </style>
 </head>
 <body>
@@ -267,137 +139,209 @@ select:focus,input:focus{border-color:#8b2020;box-shadow:0 0 0 2px rgba(139,32,3
 <div class="hero">
   <img class="hero-img" src="IMG_0755.jpeg" alt="" aria-hidden="true" onerror="this.style.display='none'">
   <div class="hero-overlay">
-    <img class="hero-logo-img" src="Peekskill Coffee Logo White.png" alt="Peekskill Coffee"
-      onerror="this.outerHTML='<div style=\'font-family:Cinzel,serif;font-size:22px;font-weight:600;color:#fff;letter-spacing:3px;text-align:center;\'>PEEKSKILL<br>COFFEE</div>'">
+    <img class="hero-logo-img" src="Peekskill Coffee Logo White.png" alt="Peekskill Coffee" onerror="this.outerHTML='<div style=\'font-family:sans-serif;font-size:22px;font-weight:600;color:#fff;letter-spacing:3px;text-align:center;\'>PEEKSKILL<br>COFFEE</div>'">
   </div>
 </div>
 
-<div class="tab-bar">
-  <button class="tab active" onclick="showTab('signup')">Sign Up</button>
-  <button class="tab" onclick="showTab('manager')">Manager Login</button>
-</div>
-
-<div class="welcome-band">
-  <p>We love investing in our team. This latte art training is one of the ways we take you to the next level — hosted at <strong>Ryze Collective, 1000 N Division St, Building #16.</strong></p>
-  <div class="commit-notice"><i class="ti ti-alert-triangle" style="font-size:13px;margin-right:5px;"></i> Signing up is a commitment. You will be paid for attending. Missing a class after signing up will result in a strike.</div>
-</div>
-
-<div class="divider"></div>
-
-<div id="tab-signup" class="body">
-  <div id="signup-loading" class="loading"><span class="spinner"></span> Loading sessions...</div>
-  <div id="signup-content" style="display:none;">
-    <div style="margin-bottom:1.25rem;">
-      <label class="field-label">Your name</label>
-      <select id="staff-select" onchange="onStaffChange()">
-        <option value="">— select your name —</option>
-      </select>
+<!-- REGISTRATION SCREEN -->
+<div id="reg-screen" style="display:none;">
+  <div class="welcome-band">
+    <p>We love investing in our team. This latte art training is one of the ways we take you to the next level — hosted at <strong>Ryze Collective, 1000 N Division St, Building #16.</strong></p>
+    <div class="commit-notice"><i class="ti ti-alert-triangle" style="font-size:13px;margin-right:5px;"></i> Signing up is a commitment. You will be paid for attending. Missing a class after signing up will result in a strike.</div>
+  </div>
+  <div class="divider"></div>
+  <div class="body">
+    <div class="reg-screen" style="padding:1.5rem 0 0;">
+      <h2>Welcome to PCH Training</h2>
+      <p>Select your name and enter your email to get started. You'll only need to do this once.</p>
     </div>
-    <div id="dates-section" style="display:none;">
-      <label class="field-label">Choose a session</label>
-      <div class="date-grid" id="date-grid"></div>
+    <div class="reg-form">
+      <div class="form-group">
+        <label class="field-label">Your name</label>
+        <select id="reg-name-select">
+          <option value="">— select your name —</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="field-label">Your email</label>
+        <input type="email" id="reg-email" placeholder="you@gmail.com">
+      </div>
+      <div id="reg-error" class="error-box" style="display:none;"></div>
+      <button class="btn-primary" onclick="doRegister()">Get Started</button>
     </div>
-    <div id="signup-feedback"></div>
-    <div id="cancel-section" style="display:none;margin-top:12px;">
-      <label class="field-label">Your signed-up sessions</label>
-      <div id="my-signups-list"></div>
-    </div>
-    <button class="btn-primary" id="signup-btn" disabled onclick="doSignup()">Confirm Signup</button>
   </div>
 </div>
 
-<div id="tab-manager" style="display:none;" class="body">
-  <div id="manager-loading" class="loading"><span class="spinner"></span> Loading...</div>
-  <div id="manager-content" style="display:none;">
-    <div class="mgr-section">
-      <div class="mgr-title">Add a session</div>
-      <div class="add-form">
-        <div class="form-row">
-          <div><label class="field-label">Date</label><input type="date" id="new-date"></div>
-          <div><label class="field-label">Time</label><input type="time" id="new-time"></div>
+<!-- MAIN APP -->
+<div id="main-app" style="display:none;">
+  <div id="greeting-bar" class="greeting-bar">
+    <span class="greeting-text" id="greeting-text"></span>
+    <button class="edit-btn-small" onclick="showEdit()">Edit</button>
+  </div>
+
+  <div class="tab-bar">
+    <button class="tab active" onclick="showTab('signup')">Sign Up</button>
+    <button class="tab" id="manager-tab-btn" onclick="showTab('manager')" style="display:none;">Manager Login</button>
+  </div>
+
+  <div class="welcome-band">
+    <p>We love investing in our team. This latte art training is one of the ways we take you to the next level — hosted at <strong>Ryze Collective, 1000 N Division St, Building #16.</strong></p>
+    <div class="commit-notice"><i class="ti ti-alert-triangle" style="font-size:13px;margin-right:5px;"></i> Signing up is a commitment. You will be paid for attending. Missing a class after signing up will result in a strike.</div>
+  </div>
+  <div class="divider"></div>
+
+  <!-- SIGNUP TAB -->
+  <div id="tab-signup" class="body">
+    <div id="signup-loading" class="loading"><span class="spinner"></span> Loading sessions...</div>
+    <div id="signup-content" style="display:none;">
+      <div id="dates-section">
+        <label class="field-label">Choose a session</label>
+        <div class="date-grid" id="date-grid"></div>
+      </div>
+      <div id="signup-feedback"></div>
+      <div id="cancel-section" style="display:none;margin-top:12px;">
+        <label class="field-label">Your signed-up sessions</label>
+        <div id="my-signups-list"></div>
+      </div>
+      <button class="btn-primary" id="signup-btn" disabled onclick="doSignup()">Confirm Signup</button>
+    </div>
+  </div>
+
+  <!-- MANAGER TAB -->
+  <div id="tab-manager" style="display:none;" class="body">
+    <div id="manager-loading" class="loading"><span class="spinner"></span> Loading...</div>
+    <div id="manager-content" style="display:none;">
+      <div class="mgr-section">
+        <div class="mgr-title">Add a session</div>
+        <div class="add-form">
+          <div class="form-row">
+            <div><label class="field-label">Date</label><input type="date" id="new-date"></div>
+            <div><label class="field-label">Time</label><input type="time" id="new-time"></div>
+          </div>
+          <div class="form-row">
+            <div><label class="field-label">Capacity</label><input type="number" id="new-capacity" min="1" max="20" placeholder="e.g. 5"></div>
+            <div>
+              <label class="field-label">Level</label>
+              <div class="radio-group">
+                <div class="radio-option">
+                  <input type="radio" name="new-level" id="new-level-basic" value="Basic" checked>
+                  <label for="new-level-basic">Basic</label>
+                </div>
+                <div class="radio-option">
+                  <input type="radio" name="new-level" id="new-level-advanced" value="Advanced">
+                  <label for="new-level-advanced">Advanced</label>
+                </div>
+              </div>
+            </div>
+          </div>
+          <button class="btn-outline" onclick="addDate()"><i class="ti ti-plus"></i> Add session</button>
         </div>
-        <button class="btn-outline" onclick="addDate()"><i class="ti ti-plus"></i> Add session</button>
+        <div id="existing-dates-list"></div>
       </div>
-      <div id="existing-dates-list"></div>
-    </div>
-    <div class="mgr-section">
-      <div class="mgr-title">Upcoming signups</div>
-      <div id="signups-by-date"></div>
-    </div>
-    <div class="mgr-section">
-      <button class="accordion-btn" id="btn-past" onclick="toggleAccordion('past-panel','btn-past')">
-        <span>Past sessions</span><span class="arrow">▼</span>
-      </button>
-      <div class="accordion-content" id="past-panel">
-        <div id="past-sessions-list"></div>
+      <div class="mgr-section">
+        <div class="mgr-title">Upcoming signups</div>
+        <div id="signups-by-date"></div>
       </div>
-    </div>
-    <div class="mgr-section">
-      <div class="mgr-title">Class hosts</div>
-      <div class="add-form">
-        <div style="margin-bottom:10px;">
-          <label class="field-label">Add host email</label>
-          <input type="email" id="host-email-input" placeholder="email@gmail.com">
+      <div class="mgr-section">
+        <button class="accordion-btn" id="btn-past" onclick="toggleAccordion('past-panel','btn-past')">
+          <span>Past sessions</span><span class="arrow">▼</span>
+        </button>
+        <div class="accordion-content" id="past-panel">
+          <div id="past-sessions-list"></div>
         </div>
-        <div id="host-email-status" style="font-size:12px;color:#8a6a45;margin-bottom:8px;"></div>
-        <button class="btn-outline" onclick="addHost()"><i class="ti ti-plus"></i> Add host</button>
       </div>
-      <div id="hosts-list"></div>
-    </div>
-    <div class="mgr-section">
-      <div id="last-reset-display"></div>
-      <button class="accordion-btn" id="btn-attendance" onclick="toggleAccordion('attendance-panel','btn-attendance')">
-        <span>Attendance tracker</span><span class="arrow">▼</span>
-      </button>
-      <div class="accordion-content" id="attendance-panel">
-        <div id="compliance-table"></div>
-        <div style="margin-top:12px;">
-          <button class="reset-btn" onclick="confirmReset()">
-            <span>Reset quarterly attendance</span><span style="font-size:16px;">↺</span>
-          </button>
-          <div id="reset-confirm" style="display:none;">
-            <div class="cancel-box" style="margin-top:6px;">This will reset everyone's attendance count for the new quarter. Raw data is preserved.<br>
-              <button class="btn-danger-outline" style="margin-top:8px;" onclick="doResetAttendance()">Yes, start new quarter</button>
+      <div class="mgr-section">
+        <div id="last-reset-display"></div>
+        <button class="accordion-btn" id="btn-attendance" onclick="toggleAccordion('attendance-panel','btn-attendance')">
+          <span>Attendance tracker</span><span class="arrow">▼</span>
+        </button>
+        <div class="accordion-content" id="attendance-panel">
+          <div id="compliance-table"></div>
+          <div style="margin-top:12px;">
+            <button class="reset-btn" onclick="confirmReset()">
+              <span>Reset quarterly attendance</span><span style="font-size:16px;">↺</span>
+            </button>
+            <div id="reset-confirm" style="display:none;">
+              <div style="background:#fff8ec;border:1px solid #c9a07a;border-radius:8px;padding:12px;font-size:13px;color:#854f0b;margin-top:6px;">
+                This will reset everyone's attendance count for the new quarter.<br>
+                <button class="btn-danger-outline" style="margin-top:8px;" onclick="doResetAttendance()">Yes, start new quarter</button>
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
-    <div class="mgr-section">
-      <button class="accordion-btn" id="btn-staff" onclick="toggleAccordion('staff-panel','btn-staff')">
-        <span>Manage staff</span><span class="arrow">▼</span>
-      </button>
-      <div class="accordion-content" id="staff-panel">
-        <div class="add-form" style="margin-top:8px;">
-          <div style="margin-bottom:10px;"><label class="field-label">Name</label><input type="text" id="new-staff-name" placeholder="First name"></div>
-          <div style="margin-bottom:10px;"><label class="field-label">Role</label>
-            <select id="new-staff-role">
-              <option value="MG">Manager</option>
-              <option value="TL">Team Lead</option>
-              <option value="SR">Senior</option>
-              <option value="JR">Junior</option>
-              <option value="AP">Apprentice</option>
-            </select>
+      <div class="mgr-section">
+        <button class="accordion-btn" id="btn-staff" onclick="toggleAccordion('staff-panel','btn-staff')">
+          <span>Manage staff</span><span class="arrow">▼</span>
+        </button>
+        <div class="accordion-content" id="staff-panel">
+          <div class="add-form" style="margin-top:8px;">
+            <div class="form-group"><label class="field-label">Name</label><input type="text" id="new-staff-name" placeholder="First name"></div>
+            <div class="form-row">
+              <div>
+                <label class="field-label">Role</label>
+                <select id="new-staff-role">
+                  <option value="MG">Manager</option>
+                  <option value="TL">Team Lead</option>
+                  <option value="SR">Senior</option>
+                  <option value="JR">Junior</option>
+                  <option value="AP">Apprentice</option>
+                </select>
+              </div>
+              <div>
+                <label class="field-label">Level</label>
+                <div class="radio-group">
+                  <div class="radio-option">
+                    <input type="radio" name="new-staff-level" id="ns-basic" value="Basic" checked>
+                    <label for="ns-basic">Basic</label>
+                  </div>
+                  <div class="radio-option">
+                    <input type="radio" name="new-staff-level" id="ns-advanced" value="Advanced">
+                    <label for="ns-advanced">Advanced</label>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <button class="btn-outline" onclick="addStaff()"><i class="ti ti-plus"></i> Add staff member</button>
           </div>
-          <button class="btn-outline" onclick="addStaff()"><i class="ti ti-plus"></i> Add staff member</button>
+          <div id="staff-list"></div>
         </div>
-        <div id="staff-list"></div>
+      </div>
+      <div class="mgr-section">
+        <div class="mgr-title">Class hosts</div>
+        <div class="add-form">
+          <div class="form-group"><label class="field-label">Add host email</label><input type="email" id="host-email-input" placeholder="email@gmail.com"></div>
+          <div id="host-email-status" style="font-size:12px;color:#8a6a45;margin-bottom:8px;"></div>
+          <button class="btn-outline" onclick="addHost()"><i class="ti ti-plus"></i> Add host</button>
+        </div>
+        <div id="hosts-list"></div>
       </div>
     </div>
+  </div>
+</div>
+
+<!-- EDIT MODAL -->
+<div id="edit-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:100;display:none;align-items:center;justify-content:center;">
+  <div style="background:#fdf6ee;border-radius:12px;padding:1.5rem;width:90%;max-width:380px;">
+    <h3 style="font-size:16px;font-weight:600;color:#2c1a0e;margin-bottom:1rem;">Edit your profile</h3>
+    <div class="form-group"><label class="field-label">Your name</label><select id="edit-name-select"></select></div>
+    <div class="form-group"><label class="field-label">Your email</label><input type="email" id="edit-email"></div>
+    <div id="edit-error" class="error-box" style="display:none;margin-top:8px;"></div>
+    <button class="btn-primary" onclick="saveEdit()">Save</button>
+    <button class="btn-outline" onclick="closeEdit()">Cancel</button>
   </div>
 </div>
 
 </div>
 <script>
-const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbz92whAuKUEgS0o27L_TLq8DOhGxYc2OIHeVgPEN_GFRovKUWt5iEABwMyYBLBHymBi/exec';
-const CAP = 5;
-const JUNIOR = ['JR','AP'];
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyPj2hA4R92sI5_zqBhZdzi2WFcxfMmQRcP4mgtncF6jdMRDS1pobBhun1V8a-8Lvsz/exec';
 const ROLE_ORDER = {MG:0,TL:1,SR:2,JR:3,AP:4};
-const ROLE_NAME = {MG:"Manager",TL:"Team Lead",SR:"Senior",JR:"Junior",AP:"Apprentice"};
-const ROLE_CLASS = {MG:"rb-mg",TL:"rb-tl",SR:"rb-sr",JR:"rb-jr",AP:"rb-ap"};
+const ROLE_NAME = {MG:'Manager',TL:'Team Lead',SR:'Senior',JR:'Junior',AP:'Apprentice'};
+const ROLE_CLASS = {MG:'rb-mg',TL:'rb-tl',SR:'rb-sr',JR:'rb-jr',AP:'rb-ap'};
 
-let staff = [], dates = [], signups = [];
-let selectedDate = null, selectedStaff = null;
+let staff = [], dates = [], signups = [], hosts = [];
+let selectedDate = null;
+let currentUser = null; // {id, name, email, role, level, isHost}
 
 async function api(params) {
   const url = SCRIPT_URL + '?' + new URLSearchParams(params);
@@ -405,47 +349,166 @@ async function api(params) {
     const res = await fetch(url);
     return res.json();
   } catch(e) {
-    // CORS blocks response reading but request succeeded - return ok for write actions
-    const writeActions = ['addSignup','cancelSignup','addDate','removeDate','addStaff','updateStaff','removeStaff','addHost','removeHost','saveSetting'];
-    if (writeActions.includes(params.action)) return {ok: true};
+    const writeActions = ['addSignup','cancelSignup','addDate','removeDate','addStaff','updateStaff','removeStaff','addHost','removeHost','saveStaffEmail','checkEmail'];
+    if (writeActions.includes(params.action)) return {ok:true};
     throw e;
   }
 }
 
-async function loadData() {
-  try {
-    const data = await api({action:'getData'});
-    staff = data.staff || [];
-    dates = data.dates || [];
-    signups = (data.signups || []).map(s => ({...s, dateId: s.dateId || s.dateID}));
-    populateSelect();
-    document.getElementById('signup-loading').style.display = 'none';
-    document.getElementById('signup-content').style.display = '';
-  } catch(e) {
-    document.getElementById('signup-loading').innerHTML = '<div class="error-box">Could not load data. Please refresh.</div>';
+// ─── INIT ───────────────────────────────────────────────────
+
+async function init() {
+  const savedUser = localStorage.getItem('pch_user');
+  if (savedUser) {
+    try {
+      currentUser = JSON.parse(savedUser);
+      await loadData();
+      // Re-check host status in case they were added as host since last visit
+      const hostCheck = await api({action:'checkEmail', email:currentUser.email});
+      currentUser.isHost = hostCheck.isHost;
+      // Refresh staff data to get latest level
+      const staffMember = staff.find(s => s.id === currentUser.id);
+      if (staffMember) {
+        currentUser.level = staffMember.level || 'Basic';
+        currentUser.role = staffMember.role;
+      }
+      localStorage.setItem('pch_user', JSON.stringify(currentUser));
+      showMainApp();
+    } catch(e) {
+      showRegScreen();
+    }
+  } else {
+    await loadData();
+    showRegScreen();
   }
 }
 
-function fmtTime(t) {
-  if (!t) return "";
-  t = t.toString();
-  // Handle ISO date string from Sheets (1899-12-30T23:00:00.000Z etc)
-  if (t.includes("T")) {
-    const d = new Date(t);
-    let h = d.getUTCHours(), m = d.getUTCMinutes();
-    const ampm = h >= 12 ? "PM" : "AM";
-    h = h % 12 || 12;
-    return h + ":" + String(m).padStart(2,"0") + " " + ampm;
-  }
-  // Handle HH:MM from time input
-  if (t.includes(":") && !t.includes("M")) {
-    let [h, m] = t.split(":").map(Number);
-    const ampm = h >= 12 ? "PM" : "AM";
-    h = h % 12 || 12;
-    return h + ":" + String(m).padStart(2,"0") + " " + ampm;
-  }
-  return t;
+async function loadData() {
+  const data = await api({action:'getData'});
+  staff = data.staff || [];
+  dates = data.dates || [];
+  signups = (data.signups || []).map(s => ({...s, dateId: s.dateId || s.dateID}));
+  const hostData = await api({action:'getHosts'});
+  hosts = hostData.hosts || [];
 }
+
+function showRegScreen() {
+  document.getElementById('reg-screen').style.display = '';
+  document.getElementById('main-app').style.display = 'none';
+  populateRegSelect();
+}
+
+function showMainApp() {
+  document.getElementById('reg-screen').style.display = 'none';
+  document.getElementById('main-app').style.display = '';
+  document.getElementById('greeting-text').textContent = 'Hi ' + currentUser.name + '!';
+  // Show manager tab only for hosts
+  document.getElementById('manager-tab-btn').style.display = currentUser.isHost ? '' : 'none';
+  document.getElementById('signup-loading').style.display = 'none';
+  document.getElementById('signup-content').style.display = '';
+  renderDates();
+  renderSignedUpDates();
+  updateBtn();
+  initHosts();
+}
+
+function populateRegSelect() {
+  const sel = document.getElementById('reg-name-select');
+  const sorted = [...staff].sort((a,b) => ROLE_ORDER[a.role]-ROLE_ORDER[b.role] || a.name.localeCompare(b.name));
+  sel.innerHTML = '<option value="">— select your name —</option>' +
+    sorted.map(s => `<option value="${s.id}">${s.name} (${ROLE_NAME[s.role]})</option>`).join('');
+}
+
+async function doRegister() {
+  const nameId = document.getElementById('reg-name-select').value;
+  const email = document.getElementById('reg-email').value.trim();
+  const errEl = document.getElementById('reg-error');
+  errEl.style.display = 'none';
+
+  if (!nameId) { errEl.textContent = 'Please select your name.'; errEl.style.display = ''; return; }
+  if (!email || !email.includes('@')) { errEl.textContent = 'Please enter a valid email.'; errEl.style.display = ''; return; }
+
+  const staffMember = staff.find(s => s.id === nameId);
+  if (!staffMember) return;
+
+  // Check host status
+  const hostCheck = await api({action:'checkEmail', email});
+  const isHost = hostCheck.isHost;
+
+  // Save email to staff sheet
+  await api({action:'saveStaffEmail', id:nameId, email});
+
+  currentUser = {
+    id: nameId,
+    name: staffMember.name,
+    email,
+    role: staffMember.role,
+    level: staffMember.level || 'Basic',
+    isHost
+  };
+  localStorage.setItem('pch_user', JSON.stringify(currentUser));
+
+  // Refresh staff data
+  const freshData = await api({action:'getData'});
+  staff = freshData.staff || [];
+  dates = freshData.dates || [];
+  signups = (freshData.signups || []).map(s => ({...s, dateId: s.dateId || s.dateID}));
+
+  showMainApp();
+}
+
+// ─── EDIT PROFILE ────────────────────────────────────────────
+
+function showEdit() {
+  const modal = document.getElementById('edit-modal');
+  modal.style.display = 'flex';
+  const sel = document.getElementById('edit-name-select');
+  const sorted = [...staff].sort((a,b) => ROLE_ORDER[a.role]-ROLE_ORDER[b.role] || a.name.localeCompare(b.name));
+  sel.innerHTML = sorted.map(s => `<option value="${s.id}"${s.id===currentUser.id?' selected':''}>${s.name} (${ROLE_NAME[s.role]})</option>`).join('');
+  sel.onchange = function() {
+    const sm = staff.find(x => x.id === this.value);
+    document.getElementById('edit-email').value = sm && sm.email ? sm.email.toString() : '';
+  };
+  document.getElementById('edit-email').value = currentUser.email || '';
+  document.getElementById('edit-error').style.display = 'none';
+}
+
+function closeEdit() {
+  document.getElementById('edit-modal').style.display = 'none';
+}
+
+async function saveEdit() {
+  const nameId = document.getElementById('edit-name-select').value;
+  const email = document.getElementById('edit-email').value.trim();
+  const errEl = document.getElementById('edit-error');
+  errEl.style.display = 'none';
+  if (!email || !email.includes('@')) { errEl.textContent = 'Please enter a valid email.'; errEl.style.display = ''; return; }
+
+  const staffMember = staff.find(s => s.id === nameId);
+  if (!staffMember) return;
+
+  const hostCheck = await api({action:'checkEmail', email});
+  await api({action:'saveStaffEmail', id:nameId, email});
+
+  currentUser = {
+    id: nameId,
+    name: staffMember.name,
+    email,
+    role: staffMember.role,
+    level: staffMember.level || 'Basic',
+    isHost: hostCheck.isHost
+  };
+  localStorage.setItem('pch_user', JSON.stringify(currentUser));
+
+  closeEdit();
+  const freshData = await api({action:'getData'});
+  staff = freshData.staff || [];
+  dates = freshData.dates || [];
+  signups = (freshData.signups || []).map(s => ({...s, dateId: s.dateId || s.dateID}));
+  showMainApp();
+}
+
+// ─── DATE RENDERING ──────────────────────────────────────────
 
 function fmtDate(d) {
   const clean = d.toString().substring(0,10);
@@ -454,106 +517,107 @@ function fmtDate(d) {
   return mo[parseInt(m)-1] + ' ' + parseInt(day);
 }
 
-function getSlots(dateId) { return signups.filter(s => s.dateId === dateId); }
-function isJunior(role) { return JUNIOR.includes(role); }
-
-function canSignup(dateId, role) {
-  const f = getSlots(dateId).length;
-  if (f >= CAP) return {ok:false, reason:'full'};
-  if (isJunior(role) && f >= CAP-1) return {ok:false, reason:'reserved'};
-  return {ok:true};
+function fmtTime(t) {
+  if (!t) return '';
+  t = t.toString();
+  if (t.includes('T')) {
+    const d = new Date(t); let h=d.getUTCHours(),m=d.getUTCMinutes();
+    const ap=h>=12?'PM':'AM'; h=h%12||12;
+    return h+':'+String(m).padStart(2,'0')+' '+ap;
+  }
+  if (t.includes(':') && !t.includes('M')) {
+    let [h,m] = t.split(':').map(Number);
+    const ap=h>=12?'PM':'AM'; h=h%12||12;
+    return h+':'+String(m).padStart(2,'0')+' '+ap;
+  }
+  return t;
 }
 
+function getSlots(dateId) { return signups.filter(s => s.dateId === dateId); }
 function mySignups(name) { return signups.filter(s => s.name === name); }
 function mySignupForDate(name, dateId) { return signups.find(s => s.name === name && s.dateId === dateId) || null; }
 
-function populateSelect() {
-  const sel = document.getElementById('staff-select');
-  const sorted = [...staff].sort((a,b) => ROLE_ORDER[a.role] - ROLE_ORDER[b.role] || a.name.localeCompare(b.name));
-  sel.innerHTML = '<option value="">— select your name —</option>' +
-    sorted.map(s => `<option value="${s.id}">${s.name} (${ROLE_NAME[s.role]})</option>`).join('');
-}
-
-function onStaffChange() {
-  const val = document.getElementById('staff-select').value;
-  selectedStaff = val ? staff.find(s => s.id === val) : null;
-  selectedDate = null;
-  document.getElementById('dates-section').style.display = val ? '' : 'none';
-  document.getElementById('signup-feedback').innerHTML = '';
-  renderDates();
-  updateBtn();
-  renderSignedUpDates();
-}
+function getCapacity(d) { return parseInt(d.capacity) || 5; }
 
 function renderDates() {
   const grid = document.getElementById('date-grid');
-  if (!selectedStaff || !dates.length) {
-    grid.innerHTML = '<p style="font-size:13px;color:#8a6a45;grid-column:1/-1;">No sessions available yet.</p>';
-    return;
-  }
+  if (!currentUser) return;
+
   const todayStr = new Date().toISOString().split('T')[0];
-  const futureDates = dates.filter(d => {
-    const dStr = d.date.toString().includes('T') ? d.date.toString().substring(0,10) : d.date.toString().substring(0,10);
-    return dStr >= todayStr;
+  const userLevel = currentUser.level || 'Basic';
+  const isHost = currentUser.isHost;
+
+  // Filter dates by level (hosts see all)
+  let visibleDates = dates.filter(d => {
+    const dStr = d.date.toString().substring(0,10);
+    if (dStr < todayStr) return false;
+    if (isHost) return true;
+    const dateLevel = d.level ? d.level.toString().trim() : 'Basic';
+    return dateLevel.toLowerCase() === userLevel.toLowerCase();
   });
-  if (!futureDates.length) {
-    grid.innerHTML = '<p style="font-size:13px;color:#8a6a45;grid-column:1/-1;">No upcoming sessions. Check back soon!</p>';
+
+  if (!visibleDates.length) {
+    grid.innerHTML = '<p style="font-size:13px;color:#8a6a45;grid-column:1/-1;">No upcoming sessions for your level. Check back soon!</p>';
     return;
   }
-  grid.innerHTML = futureDates.map(d => {
+
+  grid.innerHTML = visibleDates.map(d => {
     const slots = getSlots(d.id);
     const filled = slots.length;
-    const mine = mySignupForDate(selectedStaff.name, d.id);
-    const check = canSignup(d.id, selectedStaff.role);
+    const cap = getCapacity(d);
+    const mine = mySignupForDate(currentUser.name, d.id);
+    const isFull = filled >= cap;
     const isSel = selectedDate === d.id;
+    const dateLevel = d.level ? d.level.toString().trim() : 'Basic';
     let cls = 'date-card';
     let tag = '';
     if (mine) { cls += ' dc-mine'; tag = '<div class="dc-tag tag-mine"><i class="ti ti-check" style="font-size:10px"></i> signed up</div>'; }
-    else if (!check.ok && check.reason === 'full') { cls += ' dc-full'; tag = '<div class="dc-tag tag-full">Full</div>'; }
-    else if (!check.ok && check.reason === 'reserved') { cls += ' dc-reserved'; tag = '<div class="dc-tag tag-reserved">Last slot reserved</div>'; }
+    else if (isFull) { cls += ' dc-full'; tag = '<div class="dc-tag tag-full">Full</div>'; }
     else if (isSel) { cls += ' dc-selected'; }
-    const pips = Array.from({length:CAP}, (_,i) => {
-      if (i < filled) return '<div class="pip p-filled"></div>';
-      if (isJunior(selectedStaff.role) && i === CAP-1) return '<div class="pip p-reserved"></div>';
-      return '<div class="pip"></div>';
-    }).join('');
-    const clickable = !mine && check.ok;
-    return `<div class="${cls}" ${clickable ? `onclick="selectDate('${d.id}')"` : ''}>
+    const pips = Array.from({length:cap}, (_,i) => `<div class="pip${i<filled?' p-filled':''}"></div>`).join('');
+    const levelBadge = `<span class="level-badge ${dateLevel.toLowerCase()==='advanced'?'level-advanced':'level-basic'}">${dateLevel}</span>`;
+    const clickable = !mine && !isFull;
+    return `<div class="${cls}" ${clickable?`onclick="selectDate('${d.id}')"`:''}> 
       <div class="dc-date">${fmtDate(d.date)}</div>
       <div class="dc-time">${fmtTime(d.time)}</div>
+      <div class="dc-level" style="margin-top:4px;">${levelBadge}</div>
       <div class="dc-pips">${pips}</div>
-      <div style="font-size:11px;color:#8a6a45;margin-top:4px;">${filled}/${CAP}</div>
+      <div style="font-size:11px;color:#8a6a45;margin-top:4px;">${filled}/${cap}</div>
       ${tag}
     </div>`;
   }).join('');
 }
 
 function selectDate(id) {
-  if (selectedStaff && mySignupForDate(selectedStaff.name, id)) return;
-  selectedDate = id; renderDates(); updateBtn();
+  selectedDate = id;
+  renderDates();
+  updateBtn();
 }
 
 function updateBtn() {
   const btn = document.getElementById('signup-btn');
-  if (!selectedStaff || !selectedDate) { btn.disabled = true; return; }
-  btn.disabled = !canSignup(selectedDate, selectedStaff.role).ok || !!mySignupForDate(selectedStaff.name, selectedDate);
+  if (!selectedDate) { btn.disabled = true; return; }
+  const d = dates.find(x => x.id === selectedDate);
+  const filled = getSlots(selectedDate).length;
+  const cap = d ? getCapacity(d) : 5;
+  btn.disabled = filled >= cap || !!mySignupForDate(currentUser.name, selectedDate);
 }
 
 async function doSignup() {
-  if (!selectedStaff || !selectedDate) return;
+  if (!selectedDate || !currentUser) return;
   const btn = document.getElementById('signup-btn');
   btn.disabled = true;
   btn.innerHTML = '<span class="spinner"></span> Saving...';
   try {
     const d = dates.find(x => x.id === selectedDate);
-    await api({action:'addSignup', name:selectedStaff.name, role:selectedStaff.role, dateid:selectedDate});
-    // Reload fresh from sheet
-    const fresh = await api({action:'getData'});
-    signups = (fresh.signups || []).map(s => ({...s, dateId: s.dateId || s.dateID}));
-    dates = fresh.dates || [];
-    staff = fresh.staff || [];
+    await api({action:'addSignup', name:currentUser.name, role:currentUser.role, dateid:selectedDate, email:currentUser.email});
     document.getElementById('signup-feedback').innerHTML =
-      `<div class="success-box"><i class="ti ti-check"></i> ${selectedStaff.name} is confirmed for ${fmtDate(d.date)} at ${fmtTime(d.time)}. See you there!</div>`;
+      `<div class="success-box"><i class="ti ti-check"></i> ${currentUser.name} is confirmed for ${fmtDate(d.date)} at ${fmtTime(d.time)}. A confirmation email is on its way!</div>`;
+    try {
+      const fresh = await api({action:'getData'});
+      signups = (fresh.signups||[]).map(s=>({...s,dateId:s.dateId||s.dateID}));
+      dates = fresh.dates||[]; staff = fresh.staff||[];
+    } catch(e) {}
     selectedDate = null;
     renderDates();
     renderSignedUpDates();
@@ -565,8 +629,8 @@ async function doSignup() {
 }
 
 function renderSignedUpDates() {
-  if (!selectedStaff) return;
-  const myList = mySignups(selectedStaff.name);
+  if (!currentUser) return;
+  const myList = mySignups(currentUser.name);
   const section = document.getElementById('cancel-section');
   const listEl = document.getElementById('my-signups-list');
   if (!myList.length) { section.style.display = 'none'; return; }
@@ -582,47 +646,122 @@ function renderSignedUpDates() {
 }
 
 async function doCancel(dateId) {
-  if (!selectedStaff) return;
+  if (!currentUser) return;
   try {
-    await api({action:'cancelSignup', name:selectedStaff.name, dateid:dateId});
-    // Reload fresh from sheet
-    const freshCancel = await api({action:'getData'});
-    signups = (freshCancel.signups || []).map(s => ({...s, dateId: s.dateId || s.dateID}));
-    dates = freshCancel.dates || [];
-    staff = freshCancel.staff || [];
+    await api({action:'cancelSignup', name:currentUser.name, dateid:dateId});
+    try {
+      const fresh = await api({action:'getData'});
+      signups = (fresh.signups||[]).map(s=>({...s,dateId:s.dateId||s.dateID}));
+      dates = fresh.dates||[]; staff = fresh.staff||[];
+    } catch(e) {
+      signups = signups.filter(s => !(s.name===currentUser.name && s.dateId===dateId));
+    }
     document.getElementById('signup-feedback').innerHTML = '';
-    renderDates();
-    renderSignedUpDates();
-    updateBtn();
+    renderDates(); renderSignedUpDates(); updateBtn();
   } catch(e) {
     document.getElementById('signup-feedback').innerHTML = '<div class="error-box">Could not cancel. Please try again.</div>';
   }
 }
 
+// ─── TABS ────────────────────────────────────────────────────
+
 function showTab(t) {
-  document.getElementById('tab-signup').style.display = t === 'signup' ? '' : 'none';
-  document.getElementById('tab-manager').style.display = t === 'manager' ? '' : 'none';
-  document.querySelectorAll('.tab').forEach((el,i) =>
-    el.classList.toggle('active', (i===0&&t==='signup')||(i===1&&t==='manager')));
-  if (t === 'manager') loadManagerTab();
+  document.getElementById('tab-signup').style.display = t==='signup'?'':'none';
+  document.getElementById('tab-manager').style.display = t==='manager'?'':'none';
+  document.querySelectorAll('.tab').forEach((el,i)=>el.classList.toggle('active',(i===0&&t==='signup')||(i===1&&t==='manager')));
+  if (t==='manager') loadManagerTab();
 }
 
+async function loadManagerTab() {
+  document.getElementById('manager-loading').style.display = '';
+  document.getElementById('manager-content').style.display = 'none';
+  try {
+    const data = await api({action:'getData'});
+    staff = data.staff||[]; dates = data.dates||[];
+    signups = (data.signups||[]).map(s=>({...s,dateId:s.dateId||s.dateID}));
+    renderManager(); loadHosts();
+    document.getElementById('manager-loading').style.display = 'none';
+    document.getElementById('manager-content').style.display = '';
+  } catch(e) {
+    document.getElementById('manager-loading').innerHTML = '<div class="error-box">Could not load data.</div>';
+  }
+}
+
+// ─── MANAGER FUNCTIONS ───────────────────────────────────────
+
+async function addDate() {
+  const dv = document.getElementById('new-date').value;
+  const tv = document.getElementById('new-time').value.trim();
+  const cap = document.getElementById('new-capacity').value;
+  const level = document.querySelector('input[name="new-level"]:checked').value;
+  if (!dv||!tv||!cap) return;
+  const res = await api({action:'addDate', date:dv, time:tv, capacity:cap, level});
+  dates.push({id:res.id, date:dv, time:tv, capacity:parseInt(cap), level});
+  document.getElementById('new-date').value='';
+  document.getElementById('new-time').value='';
+  document.getElementById('new-capacity').value='';
+  renderManager(); renderDates();
+}
+
+async function removeDate(id) {
+  await api({action:'removeDate', id});
+  dates = dates.filter(d=>d.id!==id);
+  signups = signups.filter(s=>s.dateId!==id);
+  renderManager(); renderDates(); renderSignedUpDates();
+}
+
+async function addStaff() {
+  const n = document.getElementById('new-staff-name').value.trim();
+  const r = document.getElementById('new-staff-role').value;
+  const l = document.querySelector('input[name="new-staff-level"]:checked').value;
+  if (!n) return;
+  const res = await api({action:'addStaff', name:n, role:r, level:l});
+  staff.push({id:res.id, name:n, role:r, level:l, email:''});
+  document.getElementById('new-staff-name').value='';
+  populateRegSelect(); renderManager();
+}
+
+async function removeStaff(id) {
+  const s = staff.find(x=>x.id===id);
+  if(s) signups = signups.filter(x=>x.name!==s.name);
+  await api({action:'removeStaff', id});
+  staff = staff.filter(x=>x.id!==id);
+  populateRegSelect(); renderManager();
+}
+
+async function changeRole(id, newRole) {
+  await api({action:'updateStaff', id, role:newRole});
+  const s = staff.find(x=>x.id===id);
+  if(s) s.role = newRole;
+  populateRegSelect(); renderManager();
+}
+
+async function changeLevel(id, newLevel) {
+  await api({action:'updateStaff', id, level:newLevel});
+  const s = staff.find(x=>x.id===id);
+  if(s) s.level = newLevel;
+  renderManager();
+}
 
 async function loadHosts() {
   try {
     const data = await api({action:'getHosts'});
-    const hosts = data.hosts || [];
+    hosts = data.hosts||[];
     const list = document.getElementById('hosts-list');
-    if (!hosts.length) {
-      list.innerHTML = '<p style="font-size:13px;color:#8a6a45;">No hosts added yet.</p>';
-      return;
-    }
-    list.innerHTML = hosts.map(email => `
+    if(!list) return;
+    list.innerHTML = hosts.length ? hosts.map(email=>`
       <div class="staff-row">
         <span style="font-size:13px;color:#2c1a0e;">${email}</span>
         <button class="rm-btn" onclick="removeHost('${email}')"><i class="ti ti-trash"></i></button>
-      </div>`).join('');
-  } catch(e) {}
+      </div>`).join('') : '<p style="font-size:13px;color:#8a6a45;">No hosts added yet.</p>';
+  } catch(e){}
+}
+
+async function initHosts() {
+  try {
+    const data = await api({action:'getHosts'});
+    hosts = data.hosts||[];
+  } catch(e){}
 }
 
 async function addHost() {
@@ -632,12 +771,10 @@ async function addHost() {
   status.textContent = 'Adding...';
   try {
     await api({action:'addHost', email});
-    document.getElementById('host-email-input').value = '';
-    status.textContent = email + ' added! They will receive a calendar share invite.';
+    document.getElementById('host-email-input').value='';
+    status.textContent = email + ' added!';
     loadHosts();
-  } catch(e) {
-    status.textContent = 'Could not add host. Try again.';
-  }
+  } catch(e){ status.textContent = 'Could not add. Try again.'; }
 }
 
 async function removeHost(email) {
@@ -645,130 +782,7 @@ async function removeHost(email) {
     await api({action:'removeHost', email});
     document.getElementById('host-email-status').textContent = email + ' removed.';
     loadHosts();
-  } catch(e) {}
-}
-
-async function loadManagerTab() {
-  document.getElementById('manager-loading').style.display = '';
-  document.getElementById('manager-content').style.display = 'none';
-  try {
-    const data = await api({action:'getData'});
-    staff = data.staff || []; dates = data.dates || []; signups = (data.signups || []).map(s => ({...s, dateId: s.dateId || s.dateID}));
-    populateSelect(); renderManager();
-    document.getElementById('manager-loading').style.display = 'none';
-    document.getElementById('manager-content').style.display = '';
-  } catch(e) {
-    document.getElementById('manager-loading').innerHTML = '<div class="error-box">Could not load data.</div>';
-  }
-}
-
-async function addDate() {
-  const dv = document.getElementById('new-date').value;
-  const tv = document.getElementById('new-time').value.trim();
-  if (!dv || !tv) return;
-  const res = await api({action:'addDate', date:dv, time:tv});
-  dates.push({id:res.id, date:dv, time:tv});
-  document.getElementById('new-date').value = '';
-  document.getElementById('new-time').value = '';
-  renderManager();
-}
-
-async function removeDate(id) {
-  await api({action:'removeDate', id});
-  dates = dates.filter(d => d.id !== id);
-  signups = signups.filter(s => s.dateId !== id);
-  renderManager();
-}
-
-async function addStaff() {
-  const n = document.getElementById('new-staff-name').value.trim();
-  const r = document.getElementById('new-staff-role').value;
-  if (!n) return;
-  const res = await api({action:'addStaff', name:n, role:r});
-  staff.push({id:res.id, name:n, role:r});
-  document.getElementById('new-staff-name').value = '';
-  populateSelect(); renderManager();
-}
-
-async function removeStaff(id) {
-  const s = staff.find(x => x.id === id);
-  if (s) signups = signups.filter(x => x.name !== s.name);
-  await api({action:'removeStaff', id});
-  staff = staff.filter(x => x.id !== id);
-  populateSelect(); renderManager();
-}
-
-async function changeRole(id, newRole) {
-  await api({action:'updateStaff', id, role:newRole});
-  const s = staff.find(x => x.id === id);
-  if (s) s.role = newRole;
-  populateSelect(); renderManager();
-}
-
-function renderManager() {
-  const dl = document.getElementById('existing-dates-list');
-  dl.innerHTML = dates.length ? dates.map(d => `
-    <div class="date-row">
-      <span><strong style="font-size:12px;">${fmtDate(d.date)}</strong> &nbsp; ${fmtTime(d.time)} &nbsp;
-      <span style="color:#8a6a45;font-size:11px;">${getSlots(d.id).length}/${CAP}</span></span>
-      <button class="rm-btn" onclick="removeDate('${d.id}')"><i class="ti ti-trash"></i></button>
-    </div>`).join('') : '<p style="font-size:13px;color:#8a6a45;">No sessions added yet.</p>';
-
-  const sd = document.getElementById('signups-by-date');
-  sd.innerHTML = dates.length ? dates.map(d => {
-    const sl = getSlots(d.id);
-    return `<div style="margin-bottom:12px;">
-      <div style="font-size:12px;color:#7a1c1c;margin-bottom:3px;">${fmtDate(d.date)} — ${fmtTime(d.time)}</div>
-      <div style="font-size:12px;color:#5a3010;">${sl.length ? sl.map(s=>`${s.name} (${s.role})`).join(', ') : 'No signups yet'}</div>
-    </div>`;
-  }).join('') : '<p style="font-size:13px;color:#8a6a45;">No sessions added yet.</p>';
-
-  const ct = document.getElementById('compliance-table');
-  const sorted = [...staff].sort((a,b) => ROLE_ORDER[a.role] - ROLE_ORDER[b.role] || a.name.localeCompare(b.name));
-  const lastResetDate = localStorage.getItem('pch_last_reset') ? new Date(localStorage.getItem('pch_last_reset')) : null;
-  ct.innerHTML = sorted.map(s => {
-    const allCount = signups.filter(x => x.name === s.name).length;
-    const quarterCount = lastResetDate
-      ? signups.filter(x => x.name === s.name && new Date(x.ts) >= lastResetDate).length
-      : allCount;
-    const needsClass = quarterCount === 0;
-    return `<div class="comp-row">
-      <div>
-        ${needsClass ? '<span class="quarter-warn" title="Needs a class this quarter"></span>' : ''}
-        <span style="font-size:13px;font-weight:500;color:#2c1a0e;">${s.name}</span>
-        &nbsp;<span class="rbadge ${ROLE_CLASS[s.role]}">${ROLE_NAME[s.role]}</span>
-      </div>
-      <div style="text-align:right;">
-        <div style="font-size:13px;color:${needsClass?'#8b2020':'#2d6a1f'};">${quarterCount===0?'Needs a class':quarterCount+' this quarter'}</div>
-        <div style="font-size:11px;color:#8a6a45;">${allCount} total</div>
-      </div>
-    </div>`;
-  }).join('');
-
-  const sl2 = document.getElementById('staff-list');
-  sl2.innerHTML = sorted.map(s => `
-    <div class="staff-row">
-      <span style="font-size:13px;font-weight:500;color:#2c1a0e;">${s.name}</span>
-      <div style="display:flex;align-items:center;gap:6px;">
-        <select onchange="changeRole('${s.id}',this.value)" style="font-size:11px;padding:3px 6px;width:auto;">
-          ${['MG','TL','SR','JR','AP'].map(r=>`<option value="${r}"${s.role===r?' selected':''}>${ROLE_NAME[r]}</option>`).join('')}
-        </select>
-        <button class="rm-btn" onclick="removeStaff('${s.id}')"><i class="ti ti-trash"></i></button>
-      </div>
-    </div>`).join('');
-}
-
-
-
-function confirmReset() {
-  const rc = document.getElementById('reset-confirm');
-  rc.style.display = rc.style.display === 'none' ? '' : 'none';
-}
-
-function doResetAttendance() {
-  localStorage.setItem('pch_last_reset', new Date().toISOString());
-  document.getElementById('reset-confirm').style.display = 'none';
-  renderManager();
+  } catch(e){}
 }
 
 function toggleAccordion(panelId, btnId) {
@@ -779,9 +793,112 @@ function toggleAccordion(panelId, btnId) {
   btn.classList.toggle('open', !isOpen);
 }
 
-loadData();
-async function initHosts(){try{const data=await api({action:"getHosts"});const hosts=data.hosts||[];const list=document.getElementById("hosts-list");if(!list)return;if(!hosts.length){list.innerHTML='<p style="font-size:13px;color:#8a6a45;">No hosts added yet.</p>';return;}list.innerHTML=hosts.map(email=>`<div class="staff-row"><span style="font-size:13px;color:#2c1a0e;">${email}</span><button class="rm-btn" onclick="removeHost('${email}')"><i class="ti ti-trash"></i></button></div>`).join('');}catch(e){}}
-initHosts();
+function confirmReset() {
+  const rc = document.getElementById('reset-confirm');
+  rc.style.display = rc.style.display==='none'?'':'none';
+}
+
+function doResetAttendance() {
+  localStorage.setItem('pch_last_reset', new Date().toISOString());
+  document.getElementById('reset-confirm').style.display='none';
+  renderManager();
+}
+
+function renderManager() {
+  const todayStr = new Date().toISOString().split('T')[0];
+  const upcomingDates = dates.filter(d=>d.date.toString().substring(0,10)>=todayStr);
+  const pastDates = dates.filter(d=>d.date.toString().substring(0,10)<todayStr).sort((a,b)=>b.date.toString().localeCompare(a.date.toString()));
+
+  const dl = document.getElementById('existing-dates-list');
+  dl.innerHTML = upcomingDates.length ? upcomingDates.map(d=>{
+    const dateLevel = d.level?d.level.toString().trim():'Basic';
+    const levelBadge = `<span class="level-badge ${dateLevel.toLowerCase()==='advanced'?'level-advanced':'level-basic'}">${dateLevel}</span>`;
+    return `<div class="date-row">
+      <span><strong style="font-size:12px;">${fmtDate(d.date)}</strong> &nbsp; ${fmtTime(d.time)} &nbsp; ${levelBadge} &nbsp;
+      <span style="color:#8a6a45;font-size:11px;">${getSlots(d.id).length}/${getCapacity(d)}</span></span>
+      <button class="rm-btn" onclick="removeDate('${d.id}')"><i class="ti ti-trash"></i></button>
+    </div>`;
+  }).join('') : '<p style="font-size:13px;color:#8a6a45;">No upcoming sessions.</p>';
+
+  const sd = document.getElementById('signups-by-date');
+  sd.innerHTML = upcomingDates.length ? upcomingDates.map(d=>{
+    const sl = getSlots(d.id);
+    const dateLevel = d.level?d.level.toString().trim():'Basic';
+    return `<div style="margin-bottom:12px;">
+      <div style="font-size:12px;color:#7a1c1c;font-weight:600;margin-bottom:3px;">${fmtDate(d.date)} — ${fmtTime(d.time)} <span class="level-badge ${dateLevel.toLowerCase()==='advanced'?'level-advanced':'level-basic'}">${dateLevel}</span></div>
+      <div style="font-size:12px;color:#5a3010;">${sl.length?sl.map(s=>`${s.name} (${s.role})`).join(', '):'No signups yet'}</div>
+    </div>`;
+  }).join('') : '<p style="font-size:13px;color:#8a6a45;">No upcoming sessions.</p>';
+
+  const pl = document.getElementById('past-sessions-list');
+  pl.innerHTML = pastDates.length ? pastDates.map(d=>{
+    const sl = getSlots(d.id);
+    return `<div style="margin-bottom:12px;opacity:0.8;">
+      <div style="font-size:12px;color:#8a6a45;font-weight:600;margin-bottom:3px;">${fmtDate(d.date)} — ${fmtTime(d.time)}</div>
+      <div style="font-size:12px;color:#8a6a45;">${sl.length?sl.map(s=>s.name).join(', '):'No signups'}</div>
+    </div>`;
+  }).join('') : '<p style="font-size:13px;color:#8a6a45;">No past sessions yet.</p>';
+
+  const lastReset = localStorage.getItem('pch_last_reset');
+  const lrd = document.getElementById('last-reset-display');
+  lrd.innerHTML = lastReset
+    ? `<div class="last-reset">Quarter started: ${new Date(lastReset).toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric'})}</div>`
+    : '<div class="last-reset">No quarter reset recorded yet.</div>';
+
+  const ct = document.getElementById('compliance-table');
+  const lastResetDate = lastReset ? new Date(lastReset) : null;
+  const sorted = [...staff].sort((a,b)=>ROLE_ORDER[a.role]-ROLE_ORDER[b.role]||a.name.localeCompare(b.name));
+  ct.innerHTML = sorted.map(s=>{
+    const allCount = signups.filter(x=>x.name===s.name).length;
+    const quarterCount = lastResetDate ? signups.filter(x=>x.name===s.name&&new Date(x.timestamp||x.ts)>=lastResetDate).length : allCount;
+    const needsClass = quarterCount===0;
+    const sLevel = s.level?s.level.toString().trim():'Basic';
+    return `<div class="comp-row">
+      <div>
+        ${needsClass?'<span class="quarter-warn"></span>':''}
+        <span style="font-size:13px;font-weight:500;color:#2c1a0e;">${s.name}</span>
+        &nbsp;<span class="rbadge ${ROLE_CLASS[s.role]}">${ROLE_NAME[s.role]}</span>
+        &nbsp;<span class="level-badge ${sLevel.toLowerCase()==='advanced'?'level-advanced':'level-basic'}">${sLevel}</span>
+      </div>
+      <div style="text-align:right;">
+        <div style="font-size:13px;color:${needsClass?'#8b2020':'#2d6a1f'};">${quarterCount===0?'Needs a class':quarterCount+' this quarter'}</div>
+        <div style="font-size:11px;color:#8a6a45;">${allCount} total</div>
+      </div>
+    </div>`;
+  }).join('');
+
+  const sl2 = document.getElementById('staff-list');
+  sl2.innerHTML = sorted.map(s=>{
+    const sLevel = s.level?s.level.toString().trim():'Basic';
+    const sEmail = s.email?s.email.toString().trim():'';
+    return `<div class="staff-row" style="flex-direction:column;align-items:flex-start;gap:6px;">
+      <div style="display:flex;align-items:center;justify-content:space-between;width:100%;">
+        <span style="font-size:13px;font-weight:500;color:#2c1a0e;">${s.name}</span>
+        <div style="display:flex;align-items:center;gap:6px;">
+          <select onchange="changeRole('${s.id}',this.value)" style="font-size:11px;padding:3px 6px;width:auto;">
+            ${['MG','TL','SR','JR','AP'].map(r=>`<option value="${r}"${s.role===r?' selected':''}>${ROLE_NAME[r]}</option>`).join('')}
+          </select>
+          <button class="rm-btn" onclick="removeStaff('${s.id}')"><i class="ti ti-trash"></i></button>
+        </div>
+      </div>
+      <div style="display:flex;align-items:center;gap:8px;width:100%;">
+        <div class="radio-group" style="flex:0 0 auto;">
+          <div class="radio-option">
+            <input type="radio" name="level-${s.id}" id="lb-${s.id}" value="Basic" ${sLevel==='Basic'?'checked':''} onchange="changeLevel('${s.id}','Basic')">
+            <label for="lb-${s.id}" style="padding:4px 10px;font-size:11px;">Basic</label>
+          </div>
+          <div class="radio-option">
+            <input type="radio" name="level-${s.id}" id="la-${s.id}" value="Advanced" ${sLevel==='Advanced'?'checked':''} onchange="changeLevel('${s.id}','Advanced')">
+            <label for="la-${s.id}" style="padding:4px 10px;font-size:11px;">Advanced</label>
+          </div>
+        </div>
+        ${sEmail?`<span style="font-size:11px;color:#8a6a45;overflow:hidden;text-overflow:ellipsis;">${sEmail}</span>`:'<span style="font-size:11px;color:#c9a07a;">No email yet</span>'}
+      </div>
+    </div>`;
+  }).join('');
+}
+
+init();
 </script>
 </body>
 </html>
