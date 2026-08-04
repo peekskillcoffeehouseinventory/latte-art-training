@@ -334,7 +334,7 @@ select:focus,input:focus{border-color:#8b2020;box-shadow:0 0 0 2px rgba(139,32,3
 
 </div>
 <script>
-const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyPj2hA4R92sI5_zqBhZdzi2WFcxfMmQRcP4mgtncF6jdMRDS1pobBhun1V8a-8Lvsz/exec';
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzeTGMXpYgzHs188jSyuc8YqjAA2WSOji4JsnJz-_kBrhoQtxz0SF2brUvFN6lecJrD/exec';
 const ROLE_ORDER = {MG:0,TL:1,SR:2,JR:3,AP:4};
 const ROLE_NAME = {MG:'Manager',TL:'Team Lead',SR:'Senior',JR:'Junior',AP:'Apprentice'};
 const ROLE_CLASS = {MG:'rb-mg',TL:'rb-tl',SR:'rb-sr',JR:'rb-jr',AP:'rb-ap'};
@@ -359,37 +359,85 @@ async function api(params) {
 
 async function init() {
   const savedUser = localStorage.getItem('pch_user');
+  const cachedData = localStorage.getItem('pch_cache');
+
   if (savedUser) {
-    try {
-      currentUser = JSON.parse(savedUser);
-      await loadData();
-      // Re-check host status in case they were added as host since last visit
-      const hostCheck = await api({action:'checkEmail', email:currentUser.email});
-      currentUser.isHost = hostCheck.isHost;
-      // Refresh staff data to get latest level
-      const staffMember = staff.find(s => s.id === currentUser.id);
-      if (staffMember) {
-        currentUser.level = staffMember.level || 'Basic';
-        currentUser.role = staffMember.role;
-      }
-      localStorage.setItem('pch_user', JSON.stringify(currentUser));
-      showMainApp();
-    } catch(e) {
-      showRegScreen();
+    currentUser = JSON.parse(savedUser);
+
+    // Show app immediately using cached data if available
+    if (cachedData) {
+      try {
+        const cache = JSON.parse(cachedData);
+        staff = cache.staff || [];
+        dates = cache.dates || [];
+        signups = (cache.signups || []).map(s => ({...s, dateId: s.dateId || s.dateID}));
+        hosts = cache.hosts || [];
+        showMainApp();
+      } catch(e) {}
+    } else {
+      // No cache — show loading and fetch
+      document.getElementById('reg-screen').style.display = 'none';
+      document.getElementById('main-app').style.display = '';
+      document.getElementById('signup-loading').style.display = '';
+      document.getElementById('signup-content').style.display = 'none';
     }
+
+    // Refresh data in background
+    refreshDataInBackground();
   } else {
-    await loadData();
+    // First time — need to load staff list for registration dropdown
+    try {
+      const data = await api({action:'getAllData'});
+      staff = data.staff || [];
+      dates = data.dates || [];
+      signups = (data.signups || []).map(s => ({...s, dateId: s.dateId || s.dateID}));
+      hosts = data.hosts || [];
+      cacheData();
+    } catch(e) {}
     showRegScreen();
   }
 }
 
+async function refreshDataInBackground() {
+  try {
+    const data = await api({action:'getAllData'});
+    staff = data.staff || [];
+    dates = data.dates || [];
+    signups = (data.signups || []).map(s => ({...s, dateId: s.dateId || s.dateID}));
+    hosts = data.hosts || [];
+
+    // Update user level/role from fresh staff data
+    const staffMember = staff.find(s => s.id === currentUser.id);
+    if (staffMember) {
+      currentUser.level = staffMember.level ? staffMember.level.toString().trim() : 'Basic';
+      currentUser.role = staffMember.role;
+    }
+    // Check host status
+    currentUser.isHost = hosts.some(h => h.toLowerCase() === currentUser.email.toLowerCase());
+    localStorage.setItem('pch_user', JSON.stringify(currentUser));
+
+    cacheData();
+    // Re-render with fresh data
+    showMainApp();
+  } catch(e) {}
+}
+
+function cacheData() {
+  try {
+    localStorage.setItem('pch_cache', JSON.stringify({
+      staff, dates, signups, hosts,
+      cachedAt: Date.now()
+    }));
+  } catch(e) {}
+}
+
 async function loadData() {
-  const data = await api({action:'getData'});
+  const data = await api({action:'getAllData'});
   staff = data.staff || [];
   dates = data.dates || [];
   signups = (data.signups || []).map(s => ({...s, dateId: s.dateId || s.dateID}));
-  const hostData = await api({action:'getHosts'});
-  hosts = hostData.hosts || [];
+  hosts = data.hosts || [];
+  cacheData();
 }
 
 function showRegScreen() {
@@ -449,10 +497,12 @@ async function doRegister() {
   localStorage.setItem('pch_user', JSON.stringify(currentUser));
 
   // Refresh staff data
-  const freshData = await api({action:'getData'});
+  const freshData = await api({action:'getAllData'});
   staff = freshData.staff || [];
   dates = freshData.dates || [];
   signups = (freshData.signups || []).map(s => ({...s, dateId: s.dateId || s.dateID}));
+  hosts = freshData.hosts || [];
+  cacheData();
 
   showMainApp();
 }
@@ -501,10 +551,12 @@ async function saveEdit() {
   localStorage.setItem('pch_user', JSON.stringify(currentUser));
 
   closeEdit();
-  const freshData = await api({action:'getData'});
+  const freshData = await api({action:'getAllData'});
   staff = freshData.staff || [];
   dates = freshData.dates || [];
   signups = (freshData.signups || []).map(s => ({...s, dateId: s.dateId || s.dateID}));
+  hosts = freshData.hosts || [];
+  cacheData();
   showMainApp();
 }
 
@@ -614,9 +666,10 @@ async function doSignup() {
     document.getElementById('signup-feedback').innerHTML =
       `<div class="success-box"><i class="ti ti-check"></i> ${currentUser.name} is confirmed for ${fmtDate(d.date)} at ${fmtTime(d.time)}. A confirmation email is on its way!</div>`;
     try {
-      const fresh = await api({action:'getData'});
+      const fresh = await api({action:'getAllData'});
       signups = (fresh.signups||[]).map(s=>({...s,dateId:s.dateId||s.dateID}));
-      dates = fresh.dates||[]; staff = fresh.staff||[];
+      dates = fresh.dates||[]; staff = fresh.staff||[]; hosts = fresh.hosts||[];
+      cacheData();
     } catch(e) {}
     selectedDate = null;
     renderDates();
@@ -650,9 +703,10 @@ async function doCancel(dateId) {
   try {
     await api({action:'cancelSignup', name:currentUser.name, dateid:dateId});
     try {
-      const fresh = await api({action:'getData'});
+      const fresh = await api({action:'getAllData'});
       signups = (fresh.signups||[]).map(s=>({...s,dateId:s.dateId||s.dateID}));
-      dates = fresh.dates||[]; staff = fresh.staff||[];
+      dates = fresh.dates||[]; staff = fresh.staff||[]; hosts = fresh.hosts||[];
+      cacheData();
     } catch(e) {
       signups = signups.filter(s => !(s.name===currentUser.name && s.dateId===dateId));
     }
@@ -676,9 +730,11 @@ async function loadManagerTab() {
   document.getElementById('manager-loading').style.display = '';
   document.getElementById('manager-content').style.display = 'none';
   try {
-    const data = await api({action:'getData'});
+    const data = await api({action:'getAllData'});
     staff = data.staff||[]; dates = data.dates||[];
     signups = (data.signups||[]).map(s=>({...s,dateId:s.dateId||s.dateID}));
+    hosts = data.hosts||[];
+    cacheData();
     renderManager(); loadHosts();
     document.getElementById('manager-loading').style.display = 'none';
     document.getElementById('manager-content').style.display = '';
