@@ -343,14 +343,21 @@ let staff = [], dates = [], signups = [], hosts = [];
 let selectedDate = null;
 let currentUser = null; // {id, name, email, role, level, isHost}
 
-async function api(params) {
+async function api(params, timeoutMs=10000) {
   const url = SCRIPT_URL + '?' + new URLSearchParams(params);
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), timeoutMs);
   try {
-    const res = await fetch(url);
+    const res = await fetch(url, {signal: controller.signal});
+    clearTimeout(timer);
     return res.json();
   } catch(e) {
+    clearTimeout(timer);
     const writeActions = ['addSignup','cancelSignup','addDate','removeDate','addStaff','updateStaff','removeStaff','addHost','removeHost','saveStaffEmail','checkEmail'];
     if (writeActions.includes(params.action)) return {ok:true};
+    // For read actions on timeout, return empty data instead of throwing
+    if (params.action === 'getAllData') return {staff:[], dates:[], signups:[], hosts:[]};
+    if (params.action === 'checkEmail') return {isHost:false};
     throw e;
   }
 }
@@ -479,12 +486,17 @@ async function doRegister() {
   const staffMember = staff.find(s => s.id === nameId);
   if (!staffMember) return;
 
-  // Check host status
-  const hostCheck = await api({action:'checkEmail', email});
-  const isHost = hostCheck.isHost;
+  // Show loading state
+  const btn = document.querySelector('#reg-screen .btn-primary');
+  btn.disabled = true;
+  btn.textContent = 'Setting up...';
 
-  // Save email to staff sheet
-  await api({action:'saveStaffEmail', id:nameId, email});
+  try {
+    // Check host status locally against cached hosts — instant, no server call
+    const isHost = hosts.some(h => h.toString().toLowerCase() === email.toLowerCase());
+
+    // Save email to staff sheet in background — don't block on this
+    api({action:'saveStaffEmail', id:nameId, email}).catch(()=>{});
 
   currentUser = {
     id: nameId,
@@ -494,17 +506,29 @@ async function doRegister() {
     level: staffMember.level || 'Basic',
     isHost
   };
-  localStorage.setItem('pch_user', JSON.stringify(currentUser));
+    localStorage.setItem('pch_user', JSON.stringify(currentUser));
 
-  // Refresh staff data
-  const freshData = await api({action:'getAllData'});
-  staff = freshData.staff || [];
-  dates = freshData.dates || [];
-  signups = (freshData.signups || []).map(s => ({...s, dateId: s.dateId || s.dateID}));
-  hosts = freshData.hosts || [];
-  cacheData();
+    // Use cached data if available, refresh in background
+    const cachedData = localStorage.getItem('pch_cache');
+    if (cachedData) {
+      try {
+        const cache = JSON.parse(cachedData);
+        staff = cache.staff || [];
+        dates = cache.dates || [];
+        signups = (cache.signups || []).map(s => ({...s, dateId: s.dateId || s.dateID}));
+        hosts = cache.hosts || [];
+      } catch(e) {}
+    }
 
-  showMainApp();
+    showMainApp();
+    // Refresh in background
+    refreshDataInBackground();
+  } catch(e) {
+    btn.disabled = false;
+    btn.textContent = 'Get Started';
+    errEl.textContent = 'Connection error. Please try again.';
+    errEl.style.display = '';
+  }
 }
 
 // ─── EDIT PROFILE ────────────────────────────────────────────
@@ -537,8 +561,8 @@ async function saveEdit() {
   const staffMember = staff.find(s => s.id === nameId);
   if (!staffMember) return;
 
-  const hostCheck = await api({action:'checkEmail', email});
-  await api({action:'saveStaffEmail', id:nameId, email});
+  const isHostCheck = hosts.some(h => h.toString().toLowerCase() === email.toLowerCase());
+  api({action:'saveStaffEmail', id:nameId, email}).catch(()=>{});
 
   currentUser = {
     id: nameId,
